@@ -456,6 +456,7 @@ GameObject:
   - component: {fileID: 4279933459204856}
   - component: {fileID: 114711108632621764}
   - component: {fileID: 114703059021979818}
+  - component: {fileID: 95496518908536410}
   m_Layer: 9
   m_Name: UISample2
   m_TagString: Untagged
@@ -1180,6 +1181,24 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 150, y: 40, z: 0}
   m_Center: {x: 0, y: 0, z: -4.25}
+--- !u!95 &95496518908536410
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1859206113651174}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: cc500be0aaf14b84f98abe54bb480076, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!111 &111242869840798390
 Animation:
   m_ObjectHideFlags: 1
@@ -1769,6 +1788,7 @@ MonoBehaviour:
   mFloatSpacingY: 0
   mOverflowEllipsis: 0
   mOverflowWidth: 0
+  mOverflowHeight: 0
   mModifier: 0
   mShrinkToFit: 0
   mMaxLineWidth: 0
@@ -1897,6 +1917,7 @@ MonoBehaviour:
   mFloatSpacingY: 0
   mOverflowEllipsis: 0
   mOverflowWidth: 0
+  mOverflowHeight: 0
   mModifier: 0
   mShrinkToFit: 0
   mMaxLineWidth: 0
@@ -2158,6 +2179,7 @@ MonoBehaviour:
   mFloatSpacingY: 0
   mOverflowEllipsis: 0
   mOverflowWidth: 0
+  mOverflowHeight: 0
   mModifier: 0
   mShrinkToFit: 0
   mMaxLineWidth: 0
@@ -2469,6 +2491,7 @@ MonoBehaviour:
   mFloatSpacingY: 0
   mOverflowEllipsis: 0
   mOverflowWidth: 0
+  mOverflowHeight: 0
   mModifier: 0
   mShrinkToFit: 0
   mMaxLineWidth: 0
