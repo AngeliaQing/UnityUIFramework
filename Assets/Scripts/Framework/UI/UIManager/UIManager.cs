@@ -19,6 +19,8 @@ public class UIRegisterInfo
 public class UIManager : SingletonMonoBehaviour<UIManager>
 {
     IUIResourceMgr m_ui_res_mgr;
+    UILayerManager m_layer_manager;
+    UIStackManager m_stack_manage;
 
     void Awake()
     {
