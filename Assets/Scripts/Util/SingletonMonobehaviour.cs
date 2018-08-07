@@ -52,7 +52,7 @@ public class SingletonMonoBehaviour<T> : MonoBehaviour where T : MonoBehaviour
                         singleton.transform.parent = manager.transform;
                         _instance = singleton.AddComponent<T>();
                         singleton.name = "[Singleton] " + typeof(T).ToString();
-                        DontDestroyOnLoad(singleton);
+                        //DontDestroyOnLoad(singleton); //注释是因为DontDestroyOnLoad only work for root GameObjects or components on root GameObjects.
 
                         Debug.Log("[Singleton] An instance of " + typeof(T) +
                                 " is needed in the scene, so '" + singleton +

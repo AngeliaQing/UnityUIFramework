@@ -21,14 +21,4 @@ public class UIHelper
             return;
         obj.SetActive(flag);
     }
-
-    static GameObject m_s_ui_camera;
-    public static GameObject GetUICamera()
-    {
-        if(m_s_ui_camera == null)
-        {
-            m_s_ui_camera = GameObject.Find("UIRoot/UICamera");
-        }
-        return m_s_ui_camera;
-    }
 }

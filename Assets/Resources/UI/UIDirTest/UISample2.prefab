@@ -2581,10 +2581,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7481464b8cb4c04e80c6a60c5df2d67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_ui_prefab_path: UI/
+  m_layer: 0
   m_is_main_wnd: 0
-  m_is_system_or_alert: 0
   m_mate_ui: []
-  show_mask: 1
+  m_show_mask: 1
 --- !u!114 &114746840278738642
 MonoBehaviour:
   m_ObjectHideFlags: 1

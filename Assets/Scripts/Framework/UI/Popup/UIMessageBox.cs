@@ -1,18 +1,22 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class UIMessageBox : MonoBehaviour
+namespace YUIFramework
 {
-
-    // Use this for initialization
-    void Start()
+    public class UIMessageBox : MonoBehaviour
     {
 
+        // Use this for initialization
+        void Start()
+        {
+
+        }
+
+        // Update is called once per frame
+        void Update()
+        {
+
+        }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
 }

@@ -1,8 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 
-public class UIAnimManager
+namespace YUIFramework
 {
+    public class UIAnimManager
+    {
 
- 
+
+    }
+
 }

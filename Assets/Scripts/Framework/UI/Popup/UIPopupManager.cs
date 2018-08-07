@@ -1,7 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 
-public class UIPopupManager
+namespace YUIFramework
 {
+    public class UIPopupManager
+    {
 
+    }
 }
