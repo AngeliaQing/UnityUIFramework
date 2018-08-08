@@ -224,7 +224,7 @@ GameObject:
   - component: {fileID: 114789534606507374}
   - component: {fileID: 114333719662855214}
   m_Layer: 9
-  m_Name: UISample
+  m_Name: UISampleA
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -472,6 +472,24 @@ GameObject:
   - component: {fileID: 4488131350796218}
   m_Layer: 9
   m_Name: Background
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1188168459948370
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4256764694806530}
+  - component: {fileID: 114246442956089034}
+  - component: {fileID: 114428195368057278}
+  - component: {fileID: 65867535943594284}
+  m_Layer: 9
+  m_Name: BtnClose
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2596,6 +2614,19 @@ Transform:
   m_Father: {fileID: 4333128708494792}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4256764694806530
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1188168459948370}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 335, y: 281.99997, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4705158824380004}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4265471285009632
 Transform:
   m_ObjectHideFlags: 1
@@ -3442,6 +3473,7 @@ Transform:
   - {fileID: 4775575460342904}
   - {fileID: 4229616330307400}
   - {fileID: 4840720932772726}
+  - {fileID: 4256764694806530}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -4280,6 +4312,18 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 330, y: 56, z: 0}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!65 &65867535943594284
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1188168459948370}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 82, y: 82, z: 0}
+  m_Center: {x: 0, y: -41, z: 0}
 --- !u!65 &65921870736289498
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -6274,7 +6318,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1fdca5042b1d12a4890ec1bd4f04290d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tweenTarget: {fileID: 1049925438420258}
+  tweenTarget: {fileID: 0}
   hover: {r: 0.88235295, g: 0.78431374, b: 0.5882353, a: 1}
   pressed: {r: 0.7176471, g: 0.6392157, b: 0.48235294, a: 1}
   disabledColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
@@ -6376,6 +6420,60 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72af25c2a1299f94a86fa9cace6e252a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114246442956089034
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1188168459948370}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b3dc54f924693f41b5cbecb267e647a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  rightAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  bottomAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  topAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  updateAnchors: 1
+  mColor: {r: 0.12686568, g: 0.08697234, b: 0.04639118, a: 1}
+  mPivot: 1
+  mWidth: 82
+  mHeight: 82
+  mDepth: 8
+  mMat: {fileID: 0}
+  autoResizeBoxCollider: 1
+  hideIfOffScreen: 0
+  keepAspectRatio: 1
+  aspectRatio: 1
+  mType: 1
+  mFillDirection: 4
+  mFillAmount: 1
+  mInvert: 0
+  mFlip: 0
+  mApplyGradient: 0
+  mGradientTop: {r: 1, g: 1, b: 1, a: 1}
+  mGradientBottom: {r: 0.7, g: 0.7, b: 0.7, a: 1}
+  centerType: 1
+  leftType: 1
+  rightType: 1
+  bottomType: 1
+  topType: 1
+  mAtlas: {fileID: 11400000, guid: 62adb30369acbf943a67cee0f69267a3, type: 2}
+  mSpriteName: X Mark
+  mFillCenter: 1
 --- !u!114 &114247057152164320
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -6983,10 +7081,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05a2a8cf5a16bc043ad273388f5617a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_layer: 0
   m_is_main_wnd: 1
-  m_is_system_or_alert: 0
-  m_mate_ui: []
-  show_mask: 0
+  m_mate_ui_list: []
+  m_show_mask: 0
 --- !u!114 &114357036595447756
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -7595,6 +7693,39 @@ MonoBehaviour:
   mMaxLineHeight: 0
   mLineWidth: 0
   mMultiline: 1
+--- !u!114 &114428195368057278
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1188168459948370}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1fdca5042b1d12a4890ec1bd4f04290d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tweenTarget: {fileID: 1188168459948370}
+  hover: {r: 0.88235295, g: 0.78431374, b: 0.5882353, a: 1}
+  pressed: {r: 0.7176471, g: 0.6392157, b: 0.48235294, a: 1}
+  disabledColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  duration: 0.2
+  dragHighlight: 0
+  hoverSprite: 
+  pressedSprite: 
+  disabledSprite: 
+  hoverSprite2D: {fileID: 0}
+  pressedSprite2D: {fileID: 0}
+  disabledSprite2D: {fileID: 0}
+  pixelSnap: 0
+  onClick:
+  - mTarget: {fileID: 114333719662855214}
+    mMethodName: OnBtnClose
+    mParameters:
+    - obj: {fileID: 0}
+      field: 
+    - obj: {fileID: 0}
+      field: 
+    oneShot: 0
 --- !u!114 &114440810170411180
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -11198,19 +11329,19 @@ MonoBehaviour:
   updateAnchors: 1
   mColor: {r: 1, g: 1, b: 1, a: 1}
   mPivot: 4
-  mWidth: 110
+  mWidth: 114
   mHeight: 20
   mDepth: 10
   mMat: {fileID: 0}
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
-  aspectRatio: 5.5
+  aspectRatio: 2.85
   keepCrispWhenShrunk: 1
   mTrueTypeFont: {fileID: 3459068928204737762, guid: 0000000000000000d000000000000000,
     type: 0}
   mFont: {fileID: 0}
-  mText: Scroll View
+  mText: UISampleA
   mFontSize: 20
   mFontStyle: 0
   mAlignment: 0

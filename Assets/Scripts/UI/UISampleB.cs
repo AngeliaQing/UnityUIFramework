@@ -2,17 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UISample2 : UIBase {
+public class UISampleB : UIBase {
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    public void OnBtnClick(GameObject button, bool isPress)
+    {
+        UIBase.ShowUI("UISampleC");
+    }
+    public void OnBtnClose(GameObject button, bool isPress)
+    {
+        Close();
+    }
 
     public override void OnShow()
     {

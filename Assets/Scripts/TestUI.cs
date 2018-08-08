@@ -7,7 +7,7 @@ public class TestUI : MonoBehaviour {
 	// Use this for initialization
 	void Awake () {
 
-        UIBase.ShowUI("UISample");
+        UIBase.ShowUI("UISampleA");
 	}
 	
 	// Update is called once per frame

@@ -18,7 +18,7 @@ public class UIBase : UIInputListener, IUIBase, INGUIInterface
     // 是否是状态UI
     public bool m_is_main_wnd = false;
     // 主UI的附件UI，显示在主UI上面（之所以有附件UI，是因为附件UI可能会在多个主UI上显示）
-    public List<string> m_mate_ui = new List<string>();
+    public List<string> m_mate_ui_list = new List<string>();
     // 显示黑色遮罩
     public bool m_show_mask = false;
     #endregion
@@ -57,27 +57,10 @@ public class UIBase : UIInputListener, IUIBase, INGUIInterface
     {
         UIManager ui_mgr = UIManager.Instance;
         if(ui_mgr)
-            ui_mgr.DestroyUI(UIName);
+            ui_mgr.DestroyUI(Name);
     }
 
-    #region 附属UI
-    public void ClearMateUI()
-    {
-        m_mate_ui.Clear();
-    }
-    public void AddMateUI(string ui_name)
-    {
-        if (m_mate_ui.IndexOf(ui_name) > 0)
-            return;
-        m_mate_ui.Add(ui_name);
-    }
-    public void RemoveMateUI(string ui_name)
-    {
-        m_mate_ui.Remove(ui_name);
-    }
-    #endregion
-
-    #region UI的接口
+    #region UI提供的接口
     public static void ShowUI(string ui_name)
     {
         UIManager.Instance.ShowUI(ui_name);
@@ -90,6 +73,10 @@ public class UIBase : UIInputListener, IUIBase, INGUIInterface
     {
         return UIManager.Instance.IsShow(ui_name);
     }
+    public void Close()
+    {
+        UIManager.Instance.HideUI(this);
+    }
 
     public Transform GetUIParent()
     {
@@ -97,65 +84,31 @@ public class UIBase : UIInputListener, IUIBase, INGUIInterface
     }
     public GameObject GetObjectInAssetBundle(string obj_name)
     {
-        return UIManager.Instance.GetObjectInAssetBundle(UIName, obj_name);
+        return UIManager.Instance.GetObjectInAssetBundle(Name, obj_name);
     }
     #endregion
 
     #region IUIBase
-    public virtual void OnShow() { }
-    public virtual void OnHide() { }
-
-    //一般用于自毁
-    public void Destroy()
-    {
-        UIManager.Instance.HideUI(this);
-        GameObject.Destroy(gameObject);
-    }
-
     public bool IsShow()
     {
         return m_is_show;
     }
-    public bool IsStateUI()
+    public bool IsStateUI
     {
-        return m_is_main_wnd;
+        get { return m_is_main_wnd; }
     }
 
-    public void ShowSelf()
-    {
-        UIHelper.SetActive(gameObject, true);  // 触发OnEnable
-        OnShow();
-        m_is_show = true;
-        if (!m_is_main_wnd)// && !m_is_system_or_alert
-            UIManager.Instance.Forward(this);
-    }
-
-    public void HideSelf()
-    {
-        if (gameObject.activeInHierarchy)
-        {
-            UIHelper.SetActive(gameObject, false);  // 触发OnDisable
-            OnHide();
-            m_is_show = false;
-            if (!m_is_main_wnd)// && !m_is_system_or_alert
-                UIManager.Instance.Backward(this);
-        }
-    }
-    public void ShowMateUI()
-    {
-        foreach (string mate_ui in m_mate_ui)
-        {
-            UIManager.Instance.ShowUI(mate_ui);
-            //bool result = UIManager.Instance.ShowLoadedUI(mate_ui);
-            //if(!result)
-            //    FrameworkUtility.LogError("UIBase.Show(), " + UIName + "'s mate UI(" + mate_ui + ") has not been loaded! ");
-        }
-    }
-
-
-    public string UIName
+    public string Name
     {
         get { return name; }
+    }
+    public GameObject GameObject
+    {
+        get { return this.gameObject; }
+    }
+    public List<string> MateUIList
+    {
+        get { return m_mate_ui_list; }
     }
     #endregion
 
@@ -166,11 +119,52 @@ public class UIBase : UIInputListener, IUIBase, INGUIInterface
     }
     #endregion
 
+    #region internal
+    public virtual void OnShow() { }
+    public virtual void OnHide() { }
+    //一般用于自毁
+    protected void Destroy()
+    {
+        UIManager.Instance.HideUI(this);
+        GameObject.Destroy(gameObject);
+    }
 
+    #endregion
     //public void InitializeUIBase()
     //{
     //    if (m_is_show)
     //        OnEnable();
+    //}
+
+    //public void ShowSelf()
+    //{
+    //    UIHelper.SetActive(gameObject, true);  // 触发OnEnable
+    //    OnShow();
+    //    m_is_show = true;
+    //    if (!m_is_main_wnd)// && !m_is_system_or_alert
+    //        UIManager.Instance.Forward(this);
+    //}
+
+    //public void HideSelf()
+    //{
+    //    if (gameObject.activeInHierarchy)
+    //    {
+    //        UIHelper.SetActive(gameObject, false);  // 触发OnDisable
+    //        OnHide();
+    //        m_is_show = false;
+    //        if (!m_is_main_wnd)// && !m_is_system_or_alert
+    //            UIManager.Instance.Backward(this);
+    //    }
+    //}
+    //public void ShowMateUI()
+    //{
+    //    foreach (string mate_ui in m_mate_ui_list)
+    //    {
+    //        UIManager.Instance.ShowUI(mate_ui);
+    //        //bool result = UIManager.Instance.ShowLoadedUI(mate_ui);
+    //        //if(!result)
+    //        //    FrameworkUtility.LogError("UIBase.Show(), " + UIName + "'s mate UI(" + mate_ui + ") has not been loaded! ");
+    //    }
     //}
     //public int CareCategory
     //{

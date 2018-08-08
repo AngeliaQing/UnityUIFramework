@@ -27,8 +27,9 @@ namespace YUIFramework
         // UI注册
         public void RegisterUI()
         {
-            RegisterUI("UISample");
-            RegisterUI("UISample2", "UIDirTest/");
+            RegisterUI("UISampleA");
+            RegisterUI("UISampleB", "UIDirTest/");
+            RegisterUI("UISampleC");
         }
 
         public string GetUIPath(string ui_name)

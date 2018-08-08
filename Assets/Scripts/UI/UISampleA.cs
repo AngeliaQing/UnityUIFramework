@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UISample : UIBase {
+public class UISampleA : UIBase {
 
     public override void Awake()
     {
@@ -17,7 +17,11 @@ public class UISample : UIBase {
 
     public void OnBtnClick(GameObject button, bool isPress)
     {
-        UIBase.ShowUI("UISample2");
+        UIBase.ShowUI("UISampleB");
+    }
+    public void OnBtnClose(GameObject button, bool isPress)
+    {
+        Close();
     }
 
 

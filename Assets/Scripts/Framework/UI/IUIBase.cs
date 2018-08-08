@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace YUIFramework
 {
@@ -7,20 +8,12 @@ namespace YUIFramework
     {
         void OnShow();
         void OnHide();
-        void Destroy();
-
-        bool IsShow();
-        bool IsStateUI();
-
-        //void InitializeUIBase();
-        void ShowSelf();
-        void HideSelf();
-
-        //状态UI相关
-        void ShowMateUI();
 
         //Get
-        string UIName { get; }
+        bool IsStateUI { get; }
+        string Name { get; }
+        GameObject GameObject { get; }
+        List<string> MateUIList { get; }
     }
 
     public interface INGUIInterface

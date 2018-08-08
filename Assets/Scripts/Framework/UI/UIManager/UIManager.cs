@@ -83,15 +83,13 @@ namespace YUIFramework
 
         public bool IsShow(string ui_name)
         {
-            IUIBase ui_base = m_ui_res_mgr.GetLoadedUI(ui_name);
-            if (ui_base != null)
-            {
-                return ui_base.IsShow();
-            }
-            else
-            {
+            return ms_showed_ui.ContainsKey(ui_name);
+        }
+        bool IsShow(IUIBase i_ui_base)
+        {
+            if (i_ui_base == null)
                 return false;
-            }
+            return IsShow(i_ui_base.Name);
         }
 
         public void ShowUI(string ui_name)
@@ -103,7 +101,7 @@ namespace YUIFramework
                 ui_path = ms_register_manager.GetUIPath(ui_name);
             m_ui_res_mgr.LoadUI(ui_name, ShowUIWhenLoaded, ui_path);
         }
-        public bool ShowLoadedUI(string ui_name)
+        bool ShowLoadedUI(string ui_name)
         {
             IUIBase ui_base = m_ui_res_mgr.GetLoadedUI(ui_name);
             if (ui_base != null)
@@ -130,28 +128,43 @@ namespace YUIFramework
             }
         }
 
-        void ShowUI(IUIBase i_ui_base)
+        public void ShowUI(IUIBase i_ui_base)
         {
             if (i_ui_base == null)
                 return;
-            if (i_ui_base.IsShow())
+            if (IsShow(i_ui_base))
                 return;
-            if (i_ui_base.IsStateUI())
+            if (i_ui_base.IsStateUI)
             {
                 if (ms_stack_manager != null)
                     ms_stack_manager.OnShowMainUI(i_ui_base);
+                ms_stack_manager.PrintStack();
                 CloseAllShowedUI();
 
-                i_ui_base.ShowMateUI();
+                for(int i = 0; i < i_ui_base.MateUIList.Count; ++i)
+                {
+                    ShowUI(i_ui_base.MateUIList[i]);
+                }
             }
-            i_ui_base.ShowSelf();
-            ms_showed_ui[i_ui_base.UIName] = i_ui_base;
+            //i_ui_base.ShowSelf();
+            ShowUIInternal(i_ui_base);
+            ms_showed_ui[i_ui_base.Name] = i_ui_base;
         }
+        void ShowUIInternal(IUIBase i_ui_base)
+        {
+            if (i_ui_base == null)
+                return;
+            UIHelper.SetActive(i_ui_base.GameObject, true);
+            i_ui_base.OnShow();
+            if (!i_ui_base.IsStateUI)
+                Forward(i_ui_base);
+        }
+
         public void HideUI(string ui_name)
         {
             HideLoadedUI(ui_name);
         }
-        public bool HideLoadedUI(string ui_name)
+        bool HideLoadedUI(string ui_name)
         {
             IUIBase ui_base = m_ui_res_mgr.GetLoadedUI(ui_name);
             if (ui_base != null)
@@ -168,18 +181,32 @@ namespace YUIFramework
         {
             if (i_ui_base == null)
                 return;
-            if (!i_ui_base.IsShow())
+            if (!IsShow(i_ui_base))
                 return;
-            i_ui_base.HideSelf();
-            ms_showed_ui.Remove(i_ui_base.UIName);
-            if (i_ui_base.IsStateUI())
+            //i_ui_base.HideSelf();
+            HideUIInternal(i_ui_base);
+            ms_showed_ui.Remove(i_ui_base.Name);
+            if (i_ui_base.IsStateUI)
             {
                 IUIBase cur_main_ui = null;
                 if (ms_stack_manager != null)
                     cur_main_ui = ms_stack_manager.OnHideMainUI(i_ui_base);
+
+                ms_stack_manager.PrintStack();
                 ShowUI(cur_main_ui);
             }
-
+        }
+        void HideUIInternal(IUIBase i_ui_base)
+        {
+            if (i_ui_base == null)
+                return;
+            if(i_ui_base.GameObject.activeInHierarchy)
+            {
+                UIHelper.SetActive(i_ui_base.GameObject, false);
+                i_ui_base.OnHide();
+                if (!i_ui_base.IsStateUI)
+                    Backward(i_ui_base);
+            }
         }
 
         public void DestroyUI(string ui_name)
@@ -187,12 +214,13 @@ namespace YUIFramework
             m_ui_res_mgr.DestroyUI(ui_name);
         }
 
-        public static void CloseAllShowedUI()
+        void CloseAllShowedUI()
         {
-            foreach (UIBase ui_base in ms_showed_ui.Values)
+            foreach (IUIBase ui_base in ms_showed_ui.Values)
             {
-                if (ui_base.IsShow())
-                    ui_base.HideSelf();
+                if (IsShow(ui_base))
+                    //ui_base.HideSelf();
+                    HideUIInternal(ui_base);
             }
            
             ms_showed_ui.Clear();
@@ -238,7 +266,7 @@ namespace YUIFramework
         #endregion
 
         #region 状态UI管理
-        static void ClearUIStack()
+        void ClearUIStack()
         {
             // 应该在LoadLevel时调用
             CloseAllShowedUI();
