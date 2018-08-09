@@ -9,9 +9,19 @@ public class TestUI : MonoBehaviour {
 
         UIBase.ShowUI("UISampleA");
 	}
-	
-	// Update is called once per frame
-	void Update () {
+    void Start()
+    {
+        StartCoroutine(TestSendEvent());
+    }
+
+    IEnumerator TestSendEvent()
+    {
+        yield return new WaitForSeconds(5);
+        UIEventDispatcher.Instance.NotifyUI(1, "Today Is Saturday");
+    }
+
+    // Update is called once per frame
+    void Update () {
 		
 	}
 }

@@ -1,15 +1,14 @@
 ﻿using UnityEngine;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using YUIFramework;
 
 /*
- * 普通UI:可以在前一个UI的基础上打开新的UI界面
- * 模态UI：在普通UI的基础上，添加了不能处理下层UI的操作，设置m_show_mask为true
- * 主UI：独占型UI。主UI打开时，所有其他UI全部关闭，除了指定的几个UI（考虑到UI的公用性，一个UI可以由多块UI组成）
+ * 普通UI:可以在不关闭的情况下打开多个，动态控制的层级显示
+ * 状态主UI：当前只能有一个状态主UI，一般是全屏，可以带附属UI。主UI打开时，所有其他UI全部关闭，除了指定的几个附属UI（考虑到UI的公用性，一个UI可以由多块UI组成）
  * 名字规范：AssetBundle的名字 == 界面GameObject的名字 == 脚本的名字
  * 
- * UIRoot：NGUI的UI Root 默认放在UI/Common下
  */
 public class UIBase : UIInputListener, IUIBase, INGUIInterface
 {
@@ -61,9 +60,10 @@ public class UIBase : UIInputListener, IUIBase, INGUIInterface
     }
 
     #region UI提供的接口
-    public static void ShowUI(string ui_name)
+
+    public static void ShowUI(string ui_name, object data = null)
     {
-        UIManager.Instance.ShowUI(ui_name);
+        UIManager.Instance.ShowUI(ui_name, data);
     }
     public static void HideUI(string ui_name)
     {
@@ -73,9 +73,14 @@ public class UIBase : UIInputListener, IUIBase, INGUIInterface
     {
         return UIManager.Instance.IsShow(ui_name);
     }
-    public void Close()
+
+    public void CallUIMethod(string ui_name, string method_name, object value)
     {
-        UIManager.Instance.HideUI(this);
+        UIManager.Instance.CallUIMethod(ui_name, method_name, value);
+    }
+    public void CallUIMethod(string ui_name, string method_name)
+    {
+        UIManager.Instance.CallUIMethod(ui_name, method_name);
     }
 
     public Transform GetUIParent()
@@ -93,11 +98,24 @@ public class UIBase : UIInputListener, IUIBase, INGUIInterface
     {
         return m_is_show;
     }
+
+    public virtual void OnShow(object data) { }
+    public virtual void OnHide() { }
+
+    /*面板打开前两种加载数据的方式,通过UI注册时变量m_load_data_before_show(显示之前先加载数据，通过成功与否判断是否打开UI)来控制
+     * 一般用于请求服务器
+     * 1、LoadData --> OnShow --> UpdateUIOnShow 提前加载数据，根据加载结果，成功则打开UI刷新；失败则不打开UI
+     * 2、OnShow --> UpdateUIByDefaultDataOnShow --> LoadData --> UpdateUIOnShow 先打开UI用默认数据填充，然后加载数据，最后刷新UI
+     * 注：LoadData的结果需要设置到UIAsyncRequestResult
+     */
+    public virtual IEnumerator LoadData(UIAsyncRequestResult res) { yield break; }
+    public virtual void UpdateUIByDefaultDataOnShow() { }
+    public virtual void UpdateUIOnShow() { }
+
     public bool IsStateUI
     {
         get { return m_is_main_wnd; }
     }
-
     public string Name
     {
         get { return name; }
@@ -120,8 +138,11 @@ public class UIBase : UIInputListener, IUIBase, INGUIInterface
     #endregion
 
     #region internal
-    public virtual void OnShow() { }
-    public virtual void OnHide() { }
+    protected void Close()
+    {
+        UIManager.Instance.HideUI(this);
+    }
+
     //一般用于自毁
     protected void Destroy()
     {
@@ -130,47 +151,6 @@ public class UIBase : UIInputListener, IUIBase, INGUIInterface
     }
 
     #endregion
-    //public void InitializeUIBase()
-    //{
-    //    if (m_is_show)
-    //        OnEnable();
-    //}
-
-    //public void ShowSelf()
-    //{
-    //    UIHelper.SetActive(gameObject, true);  // 触发OnEnable
-    //    OnShow();
-    //    m_is_show = true;
-    //    if (!m_is_main_wnd)// && !m_is_system_or_alert
-    //        UIManager.Instance.Forward(this);
-    //}
-
-    //public void HideSelf()
-    //{
-    //    if (gameObject.activeInHierarchy)
-    //    {
-    //        UIHelper.SetActive(gameObject, false);  // 触发OnDisable
-    //        OnHide();
-    //        m_is_show = false;
-    //        if (!m_is_main_wnd)// && !m_is_system_or_alert
-    //            UIManager.Instance.Backward(this);
-    //    }
-    //}
-    //public void ShowMateUI()
-    //{
-    //    foreach (string mate_ui in m_mate_ui_list)
-    //    {
-    //        UIManager.Instance.ShowUI(mate_ui);
-    //        //bool result = UIManager.Instance.ShowLoadedUI(mate_ui);
-    //        //if(!result)
-    //        //    FrameworkUtility.LogError("UIBase.Show(), " + UIName + "'s mate UI(" + mate_ui + ") has not been loaded! ");
-    //    }
-    //}
-    //public int CareCategory
-    //{
-    //    get { return InputCareCategory; }
-    //    set { InputCareCategory = value; }
-    //}
 }
 
 
@@ -193,4 +173,17 @@ public class EasyTouchEventCategoty
     public const int ETEC_Pinch = 1 << 12;
     public const int ETEC_Drag2Fingers = 1 << 13;
     public const int ETEC_Swipe2Fingers = 1 << 14;
+}
+
+public class UIAsyncRequestResult : IRecyclable
+{
+    public bool Success
+    {
+        get; set;
+    }
+
+    public void Reset()
+    {
+
+    }
 }

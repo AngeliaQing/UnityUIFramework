@@ -74,7 +74,7 @@ namespace YUIFramework
             return m_ui_res_mgr.GetObjectInAssetBundle(ui_name, obj_name);
         }
 
-        void DoNothingWhenLoaded(IUIBase ui_base)
+        void DoNothingWhenLoaded(IUIBase ui_base, object param = null)
         {
         }
         #endregion
@@ -92,21 +92,21 @@ namespace YUIFramework
             return IsShow(i_ui_base.Name);
         }
 
-        public void ShowUI(string ui_name)
+        public void ShowUI(string ui_name, object data = null)
         {
-            if (ShowLoadedUI(ui_name))
+            if (ShowLoadedUI(ui_name, data))
                 return;
             string ui_path = "";
             if (ms_register_manager != null)
                 ui_path = ms_register_manager.GetUIPath(ui_name);
-            m_ui_res_mgr.LoadUI(ui_name, ShowUIWhenLoaded, ui_path);
+            m_ui_res_mgr.LoadUI(ui_name, ShowUIWhenLoaded, ui_path, data);
         }
-        bool ShowLoadedUI(string ui_name)
+        bool ShowLoadedUI(string ui_name, object data = null)
         {
             IUIBase ui_base = m_ui_res_mgr.GetLoadedUI(ui_name);
             if (ui_base != null)
             {
-                ShowUI(ui_base);
+                ShowUI(ui_base, data);
                 return true;
             }
             else
@@ -115,12 +115,12 @@ namespace YUIFramework
             }
         }
 
-        void ShowUIWhenLoaded(IUIBase ui_base)
+        void ShowUIWhenLoaded(IUIBase ui_base, object data = null)
         {
             if (ui_base != null)
             {
                 //ui_base.InitializeUIBase();
-                ShowUI(ui_base);
+                ShowUI(ui_base, data);
             }
             else
             {
@@ -128,12 +128,30 @@ namespace YUIFramework
             }
         }
 
-        public void ShowUI(IUIBase i_ui_base)
+        public void ShowUI(IUIBase i_ui_base, object data = null)
+        {
+            StartCoroutine(ShowUIWithLoadData(i_ui_base, data));
+        }
+        IEnumerator ShowUIWithLoadData(IUIBase i_ui_base, object data = null)
         {
             if (i_ui_base == null)
-                return;
+                yield break; ;
             if (IsShow(i_ui_base))
-                return;
+                yield break;
+
+            //加载数据相关
+            if(NeedLoadDataBeforeShow(i_ui_base))
+            {
+                UIAsyncRequestResult res = RecyclableObject.Create<UIAsyncRequestResult>();
+                res.Success = true;
+                yield return i_ui_base.LoadData(res);
+                if (!res.Success)
+                {
+                    RecyclableObject.Recycle(res);
+                    yield break;
+                }
+            }
+
             if (i_ui_base.IsStateUI)
             {
                 if (ms_stack_manager != null)
@@ -141,21 +159,38 @@ namespace YUIFramework
                 ms_stack_manager.PrintStack();
                 CloseAllShowedUI();
 
-                for(int i = 0; i < i_ui_base.MateUIList.Count; ++i)
+                for (int i = 0; i < i_ui_base.MateUIList.Count; ++i)
                 {
                     ShowUI(i_ui_base.MateUIList[i]);
                 }
             }
             //i_ui_base.ShowSelf();
-            ShowUIInternal(i_ui_base);
+            ShowUIInternal(i_ui_base, data);
             ms_showed_ui[i_ui_base.Name] = i_ui_base;
+
+            //加载数据相关
+            if(NeedLoadDataBeforeShow(i_ui_base))
+            {
+                i_ui_base.UpdateUIOnShow();
+            }
+            else
+            {
+                i_ui_base.UpdateUIByDefaultDataOnShow();
+                UIAsyncRequestResult res = RecyclableObject.Create<UIAsyncRequestResult>();
+                res.Success = true;
+                yield return i_ui_base.LoadData(res);
+                RecyclableObject.Recycle(res);
+                i_ui_base.UpdateUIOnShow();
+            }
         }
-        void ShowUIInternal(IUIBase i_ui_base)
+
+
+        void ShowUIInternal(IUIBase i_ui_base, object data = null)
         {
             if (i_ui_base == null)
                 return;
             UIHelper.SetActive(i_ui_base.GameObject, true);
-            i_ui_base.OnShow();
+            i_ui_base.OnShow(data);
             if (!i_ui_base.IsStateUI)
                 Forward(i_ui_base);
         }
@@ -282,6 +317,32 @@ namespace YUIFramework
             {
                 ms_mask_manager.AddMask(ui_base, call_back);
             }
+        }
+        #endregion
+
+        #region 注册管理器
+        bool NeedLoadDataBeforeShow(IUIBase ui)
+        {
+            if (ms_register_manager != null)
+                return ms_register_manager.NeedLoadDataBeforeShow(ui);
+            return false;
+        }
+        #endregion
+
+        #region 打开的UI面板间通讯
+        public void CallUIMethod(string ui_name, string method_name, object value)
+        {
+            IUIBase ui = GetUI(ui_name);
+            if (ui == null)
+                return;
+            ui.GameObject.SendMessage(method_name, value);
+        }
+        public void CallUIMethod(string ui_name, string method_name)
+        {
+            IUIBase ui = GetUI(ui_name);
+            if (ui == null)
+                return;
+            ui.GameObject.SendMessage(method_name);
         }
         #endregion
     }

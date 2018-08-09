@@ -6,8 +6,12 @@ namespace YUIFramework
 {
     public interface IUIBase
     {
-        void OnShow();
+        void OnShow(object data);
         void OnHide();
+
+        IEnumerator LoadData(UIAsyncRequestResult res);
+        void UpdateUIByDefaultDataOnShow();
+        void UpdateUIOnShow();
 
         //Get
         bool IsStateUI { get; }

@@ -557,7 +557,7 @@ MonoBehaviour:
   m_layer: 0
   m_is_main_wnd: 0
   m_mate_ui_list: []
-  m_show_mask: 0
+  m_show_mask: 1
 --- !u!114 &114250960637758570
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -25,10 +25,10 @@ namespace YUIFramework
             RegisterUI();
         }
         // UI注册
-        public void RegisterUI()
+        void RegisterUI()
         {
             RegisterUI("UISampleA");
-            RegisterUI("UISampleB", "UIDirTest/");
+            RegisterUI("UISampleB", "UIDirTest/", true);
             RegisterUI("UISampleC");
         }
 
@@ -37,6 +37,14 @@ namespace YUIFramework
             if (m_ui_name2register_info.ContainsKey(ui_name))
                 return m_ui_name2register_info[ui_name].m_ui_path;
             return "";
+        }
+        public bool NeedLoadDataBeforeShow(IUIBase ui)
+        {
+            if (ui == null)
+                return false;
+            if (m_ui_name2register_info.ContainsKey(ui.Name))
+                return m_ui_name2register_info[ui.Name].m_load_data_before_show;
+            return false;
         }
 
         #region internal

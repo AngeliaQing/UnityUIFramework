@@ -62,6 +62,7 @@ namespace YUIFramework
 
         public void PrintStack()
         {
+            return;
             string log = "";
             foreach(IUIBase ui in ms_main_ui_stack)
             {

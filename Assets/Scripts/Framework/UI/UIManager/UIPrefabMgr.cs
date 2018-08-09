@@ -8,13 +8,13 @@ namespace YUIFramework
     public class UIPrefabMgr : IUIResourceMgr
     {
         SortedDictionary<string, KeyValuePair<GameObject, IUIBase>> m_loaded_prefab = new SortedDictionary<string, KeyValuePair<GameObject, IUIBase>>();
-        public void LoadUI(string ui_name, Action<IUIBase> on_load, string ui_dir_path = "")
+        public void LoadUI(string ui_name, Action<IUIBase,object> on_load, string ui_dir_path = "", object data = null)
         {
             KeyValuePair<GameObject, IUIBase> pair;
             if (m_loaded_prefab.TryGetValue(ui_name, out pair))
             {
                 if (on_load != null)
-                    on_load(pair.Value);
+                    on_load(pair.Value, data);
                 return;
             }
             GameObject prefab = Resources.Load("UI/" + ui_dir_path + ui_name, typeof(GameObject)) as GameObject;
@@ -22,7 +22,7 @@ namespace YUIFramework
             {
                 Debug.LogError("UIPrefabMgr LoadUI fail prefab, UI/" + ui_dir_path + ui_name);
                 if (on_load != null)
-                    on_load(null);
+                    on_load(null, data);
                 return;
             }
             GameObject go = GameObject.Instantiate(prefab) as GameObject;
@@ -30,7 +30,7 @@ namespace YUIFramework
             {
                 Debug.LogError("UIPrefabMgr LoadUI fail prefab, UI/" + ui_dir_path + ui_name);
                 if (on_load != null)
-                    on_load(null);
+                    on_load(null, data);
                 return;
             }
             go.SetActive(false);  // 等UIBase.Show()时再显示
@@ -39,7 +39,7 @@ namespace YUIFramework
             {
                 Debug.LogError("UIPrefabMgr LoadUI fail prefab, UI/" + ui_dir_path + ui_name);
                 if (on_load != null)
-                    on_load(null);
+                    on_load(null, data);
                 return;
             }
             Debug.Log("UIPrefabMgr LoadUI, UI/" + ui_name);
@@ -52,7 +52,7 @@ namespace YUIFramework
 
             // 成功
             if (on_load != null)
-                on_load(ui_base);
+                on_load(ui_base, data);
         }
 
         public IUIBase GetLoadedUI(string ui_name)
