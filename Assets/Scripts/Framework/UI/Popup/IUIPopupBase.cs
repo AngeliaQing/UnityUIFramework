@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace YUIFramework
 {
-    public class IUIPopupBase
+    public enum PopupPriority
     {
         Invalid,
         Normal,
