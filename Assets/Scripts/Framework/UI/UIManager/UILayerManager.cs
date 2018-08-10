@@ -16,10 +16,13 @@ namespace YUIFramework
     {
         IUILayerManagerHandler m_ui_layer_mng_handler;
         static GameObject ms_ui_root;
-        Dictionary<int, Transform> m_layer2transfom = new Dictionary<int, Transform>();       
+        Dictionary<int, Transform> m_layer2transfom = new Dictionary<int, Transform>();
 
+        #region 常量
         const string UI_CAMERA_NAME = "UICamera";
         const string UI_CAMERA_PREFAB_PATH = "UI/Common/UICamera";
+        const string UI_MESSAGE_BOX_PREFAB_PATH = "UI/Common/UIMessageBox";
+        #endregion
 
         void Awake()
         {
@@ -65,9 +68,9 @@ namespace YUIFramework
             int i = 0;
             foreach (int one_layer in Enum.GetValues(typeof(UILayer)))
             {
-                string layer_name = Enum.GetName(typeof(UILayer), one_layer);
+                string layer_name = "UI"+Enum.GetName(typeof(UILayer), one_layer);
                 GameObject layer_obj = new GameObject();
-                layer_obj.layer = LayerMask.NameToLayer("NGUILayer");
+                layer_obj.layer = LayerMask.NameToLayer(layer_name);
                 layer_obj.transform.parent = GetUIRoot().transform;
                 layer_obj.transform.position = Vector3.zero;
                 layer_obj.transform.eulerAngles = Vector3.zero;
@@ -76,6 +79,7 @@ namespace YUIFramework
 
                 //放置相机
                 GameObject camera_obj = DemoUnityResourceManager<GameObject>.Instance.AllocResource(UI_CAMERA_PREFAB_PATH);
+                camera_obj.layer = LayerMask.NameToLayer(layer_name);
                 camera_obj.transform.parent = layer_obj.transform;
                 camera_obj.transform.position = Vector3.zero;
                 camera_obj.transform.eulerAngles = Vector3.zero;
@@ -83,11 +87,14 @@ namespace YUIFramework
                 camera_obj.name = UI_CAMERA_NAME;
                 Camera camera = camera_obj.GetComponent<Camera>();
                 camera.depth = depth + i;
+                camera.cullingMask = 1 << LayerMask.NameToLayer(layer_name);
 
                 m_layer2transfom[one_layer] = camera_obj.transform;
 
                 i += 10;
             }
+
+            InitPopupLayer();
         }
         void InitCameras()
         {
@@ -114,6 +121,19 @@ namespace YUIFramework
                 }
             }
             return ms_ui_root;
+        }
+
+        void InitPopupLayer()
+        {
+            Transform ui_camera_trans = GetParentByLayer(UILayer.SystemPopupLayer);
+            GameObject msg_box_obj = DemoUnityResourceManager<GameObject>.Instance.AllocResource(UI_MESSAGE_BOX_PREFAB_PATH);
+            msg_box_obj.transform.parent = ui_camera_trans;
+            msg_box_obj.transform.name = "UIMessageBox";
+            msg_box_obj.transform.localPosition = Vector3.zero;
+            msg_box_obj.transform.localEulerAngles = Vector3.zero;
+            msg_box_obj.transform.localScale = Vector3.one;
+
+            UIMessageBox.SetShow(false);
         }
         #endregion
     }

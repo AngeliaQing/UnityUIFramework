@@ -79,7 +79,7 @@ namespace YUIFramework
                 }
             }
 
-            int ui_layer = LayerMask.GetMask("NGUILayer");
+            int ui_layer = LayerMask.GetMask("UIDefaultLayer");
             SetInterceptiveCameraLayerMask(ui_layer);
 
             RegisterInputDelegates();

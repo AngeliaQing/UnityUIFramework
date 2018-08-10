@@ -22,8 +22,12 @@ public class UISampleB : UIBase {
     {
         Debug.LogError(DateTime.Now.ToString() + " UISampleB LoadData Start...");
         yield return new WaitForSeconds(2);
-        res.Success = true;
-        Debug.LogError(DateTime.Now.ToString() + " UISampleB LoadData End...Success");
+        res.Success = false;
+        if(!res.Success)
+        {
+            UIPopupMessageBox.Alert("I am Title", "I am Context...", new BtnClickCallBack(OnBtnClickOK), "yqq");
+        }
+        Debug.LogError(DateTime.Now.ToString() + " UISampleB LoadData End...Fail");
     }
 
     public override void OnShow(object data)
@@ -39,5 +43,10 @@ public class UISampleB : UIBase {
     public override void OnHide()
     {
         gameObject.GetComponent<Animator>().SetBool("OnShow", false);
+    }
+
+    void OnBtnClickOK(object param)
+    {
+        Debug.LogError("UISampleB Test System PopupBox Callback " + param);
     }
 }
