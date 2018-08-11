@@ -3,13 +3,6 @@ using System.Collections.Generic;
 
 namespace YUIFramework
 {
-    public enum PopupPriority
-    {
-        Invalid,
-        Normal,
-        Network,
-        System,
-    }
     public interface IUIPopupBase
     {
         PopupPriority Priority { get; set; }

@@ -20,6 +20,7 @@ public class UISampleA : UIBase, IUIEventListener
 
     public void OnBtnClick(GameObject button, bool isPress)
     {
+        Debug.LogError("UISampleA OnBtnClick");
         UIBase.ShowUI("UISampleB", 22);
     }
     public void OnBtnClose(GameObject button, bool isPress)

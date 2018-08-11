@@ -52,7 +52,7 @@ namespace YUIFramework
             else
             {
                 popup.Close(false);
-                //m_cur_popup.Open();
+                m_cur_popup.Open();
             }
 
             int index = m_popup_list.FindIndex((IUIPopupBase p) => { return p.Priority < popup.Priority; });

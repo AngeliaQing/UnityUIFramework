@@ -3,6 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using YUIFramework;
 
+public enum PopupPriority
+{
+    Invalid,
+    Normal,
+    Network,
+    System,
+}
+
 public class UIPopupMessageBox : IUIPopupBase, IRecyclable
 {
     #region 变量

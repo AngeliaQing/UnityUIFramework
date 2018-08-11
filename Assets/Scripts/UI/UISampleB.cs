@@ -26,6 +26,8 @@ public class UISampleB : UIBase {
         if(!res.Success)
         {
             UIPopupMessageBox.Alert("I am Title", "I am Context...", new BtnClickCallBack(OnBtnClickOK), "yqq");
+            yield return new WaitForSeconds(1);
+            UIPopupMessageBox.Alert("I am Title1", "I am Context1...", "Wait", PopupPriority.Network);
         }
         Debug.LogError(DateTime.Now.ToString() + " UISampleB LoadData End...Fail");
     }

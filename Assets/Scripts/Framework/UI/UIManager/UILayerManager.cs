@@ -88,6 +88,8 @@ namespace YUIFramework
                 Camera camera = camera_obj.GetComponent<Camera>();
                 camera.depth = depth + i;
                 camera.cullingMask = 1 << LayerMask.NameToLayer(layer_name);
+                UICamera ui_camera = camera_obj.GetComponent<UICamera>();
+                ui_camera.eventReceiverMask = 1 << LayerMask.NameToLayer(layer_name);
 
                 m_layer2transfom[one_layer] = camera_obj.transform;
 
