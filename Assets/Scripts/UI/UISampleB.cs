@@ -11,7 +11,7 @@ public class UISampleB : UIBase {
     }
     public void OnBtnClickA(GameObject button, bool isPress)
     {
-        CallUIMethod("UISampleA", "YqqCallBack", "i love you");
+        CallUIMethod("UISampleA", "YqqCallBack", "This is callback with other ui");
     }
     public void OnBtnClose(GameObject button, bool isPress)
     {
