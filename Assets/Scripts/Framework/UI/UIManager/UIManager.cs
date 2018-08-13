@@ -18,6 +18,7 @@ namespace YUIFramework
         static UIStackManager ms_stack_manager;
         static UIMaskManager ms_mask_manager;
         static UIPopupManager ms_popup_manager;
+        static UILockManager ms_lock_manager;
 
         // 打开的非状态UI的数量
         static int ms_opened_ui_count = 0;
@@ -34,6 +35,7 @@ namespace YUIFramework
             ms_stack_manager = gameObject.GetComponent<UIStackManager>();
             ms_mask_manager = gameObject.GetComponent<UIMaskManager>();
             ms_popup_manager = new UIPopupManager();
+            ms_lock_manager = new UILockManager();
         }
 
         protected override void OnDestroy()
@@ -358,6 +360,24 @@ namespace YUIFramework
         {
             if (ms_popup_manager != null)
                 ms_popup_manager.ClosePopup(popup);
+        }
+        #endregion
+
+        #region UI锁
+        public void LockUI(string lock_type)
+        {
+            if (ms_lock_manager != null)
+                ms_lock_manager.LockUI(lock_type);
+        }
+        public void UnLockUI(string lock_type)
+        {
+            if (ms_lock_manager != null)
+                ms_lock_manager.UnLockUI(lock_type);
+        }
+        public void UnLockAllUI()
+        {
+            if (ms_lock_manager != null)
+                ms_lock_manager.UnLockAllUI();
         }
         #endregion
     }

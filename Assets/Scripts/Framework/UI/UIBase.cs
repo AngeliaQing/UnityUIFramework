@@ -138,6 +138,18 @@ public class UIBase : UIInputListener, IUIBase, INGUIInterface
     #endregion
 
     #region internal
+    protected void LockUI(string lock_type)
+    {
+        UIManager.Instance.LockUI(lock_type);
+    }
+    protected void UnLockUI(string lock_type)
+    {
+        UIManager.Instance.UnLockUI(lock_type);
+    }
+    protected void UnLockAllUI()
+    {
+        UIManager.Instance.UnLockAllUI();
+    }
     protected void Close()
     {
         UIManager.Instance.HideUI(this);

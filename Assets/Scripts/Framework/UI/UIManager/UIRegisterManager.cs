@@ -27,6 +27,7 @@ namespace YUIFramework
         // UI注册
         void RegisterUI()
         {
+            RegisterUI("UILock","Common/");
             RegisterUI("UISampleA");
             RegisterUI("UISampleB", "UIDirTest/", true);
             RegisterUI("UISampleC");

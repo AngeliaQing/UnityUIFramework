@@ -16,9 +16,11 @@ public class UISampleC : UIBase
     }
     public override IEnumerator LoadData(UIAsyncRequestResult res)
     {
+        LockUI("UISampleC");
         Debug.LogError(DateTime.Now.ToString() + " UISampleC LoadData Start...");
         yield return new WaitForSeconds(2);
         Debug.LogError(DateTime.Now.ToString() + " UISampleC LoadData End...");
+        UnLockUI("UISampleC");
     }
     public override void UpdateUIOnShow()
     {
