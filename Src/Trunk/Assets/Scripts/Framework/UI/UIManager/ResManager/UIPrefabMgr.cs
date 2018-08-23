@@ -45,7 +45,8 @@ namespace YUIFramework
             Debug.Log("UIPrefabMgr LoadUI, UI/" + ui_name);
             go.name = ui_name;  // AssetBundle的名字 == 界面GameObject的名字 == 脚本的名字
             Transform tf = go.transform;
-            tf.parent = ui_base.GetUIParent();
+            tf.SetParent(ui_base.GetUIParent());
+            //tf.parent = ;
             tf.localScale = Vector3.one;
             tf.localPosition = Vector3.zero;
             m_loaded_prefab[ui_name] = new KeyValuePair<GameObject, IUIBase>(go, ui_base);

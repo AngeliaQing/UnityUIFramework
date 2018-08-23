@@ -361,6 +361,13 @@ namespace YUIFramework
             if (ms_popup_manager != null)
                 ms_popup_manager.ClosePopup(popup);
         }
+        public UIMessageBox GetUIMessageBox()
+        {
+            if (ms_layer_manager != null)
+                return ms_layer_manager.GetUIMessageBox();
+            return null;
+        }
+
         #endregion
 
         #region UIËø

@@ -23,7 +23,7 @@ GameObject:
   - component: {fileID: 114225650298524026}
   - component: {fileID: 54135648413469138}
   m_Layer: 9
-  m_Name: UIRoot
+  m_Name: NGUIRoot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

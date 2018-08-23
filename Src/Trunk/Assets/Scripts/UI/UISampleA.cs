@@ -15,15 +15,15 @@ public class UISampleA : UIBase, IUIEventListener
 
     public override void OnSimpleTap(Gesture gesture)
     {
-        //Debug.LogError("OK, OnSimpleTap");
+        Debug.LogError("OK, OnSimpleTap");
     }
 
-    public void OnBtnClick(GameObject button, bool isPress)
+    public void OnBtnClick()
     {
         Debug.LogError("UISampleA OnBtnClick");
         UIBase.ShowUI("UISampleB", 22);
     }
-    public void OnBtnClose(GameObject button, bool isPress)
+    public void OnBtnClose()
     {
         Close();
     }
@@ -43,7 +43,7 @@ public class UISampleA : UIBase, IUIEventListener
     #region IUIEventListener
     public void ReceiveEvent(int event_type, System.Object event_data = null)
     {
-        Debug.LogError("UISampleA ReceiveEvent "+ (string)event_data);
+        Debug.LogError("Test UISampleA ReceiveEvent "+ (string)event_data+" from combat");
     }
     #endregion
 

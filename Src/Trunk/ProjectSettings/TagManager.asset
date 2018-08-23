@@ -14,8 +14,8 @@ TagManager:
   - 
   - 
   - PostProcessing
-  - UIDefaultLayer
-  - UISystemPopupLayer
+  - UILayerDefault
+  - UILayerSystemPopup
   - 
   - 
   - 

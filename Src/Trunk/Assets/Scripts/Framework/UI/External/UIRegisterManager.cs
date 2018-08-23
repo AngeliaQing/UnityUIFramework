@@ -27,10 +27,18 @@ namespace YUIFramework
         // UI注册
         void RegisterUI()
         {
-            RegisterUI("UILock","Common/");
-            RegisterUI("UISampleA");
-            RegisterUI("UISampleB", "UIDirTest/", true);
-            RegisterUI("UISampleC");
+#if USE_NGUI
+            RegisterUI("UILock","Common/NGUI/");
+            RegisterUI("UISampleA", "Example/NGUI/");
+            RegisterUI("UISampleB", "Example/NGUI/UIDirTest/", true);
+            RegisterUI("UISampleC", "Example/NGUI/");
+#else
+            RegisterUI("UILock", "Common/UGUI/");
+            RegisterUI("UISampleA", "Example/UGUI/");
+            RegisterUI("UISampleB", "Example/UGUI/UIDirTest/", true);
+            RegisterUI("UISampleC", "Example/UGUI/");
+
+#endif
         }
 
         public string GetUIPath(string ui_name)
@@ -48,12 +56,12 @@ namespace YUIFramework
             return false;
         }
 
-        #region internal
+#region internal
         void RegisterUI(string ui_name, string ui_path = "", bool load_data_before_show = false)
         {
             UIRegisterInfo register_info = new UIRegisterInfo(ui_path, load_data_before_show);
             m_ui_name2register_info[ui_name] = register_info;
         }
-        #endregion
+#endregion
     }
 }

@@ -27,11 +27,11 @@ public class UISampleC : UIBase
         Debug.LogError(DateTime.Now.ToString() + " UISampleC UpdateUIOnShow...");
     }
 
-    public void OnBtnClick(GameObject button, bool isPress)
+    public void OnBtnClick()
     {
         UIBase.ShowUI("UISampleA");
     }
-    public void OnBtnClose(GameObject button, bool isPress)
+    public void OnBtnClose()
     {
         Close();
     }

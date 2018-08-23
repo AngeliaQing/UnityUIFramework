@@ -10,23 +10,29 @@ using YUIFramework;
  * 名字规范：AssetBundle的名字 == 界面GameObject的名字 == 脚本的名字
  * 
  */
+#if USE_NGUI
 public class UIBase : UIInputListener, IUIBase, INGUIInterface
+#else
+public class UIBase : UIInputListener, IUIBase
+#endif
 {
-    #region 界面实例公开数据，Unity可编辑
-    public UILayer m_layer = UILayer.DefaultLayer;
+#region 界面实例公开数据，Unity可编辑
+    public UILayer m_layer = UILayer.LayerDefault;
     // 是否是状态UI
     public bool m_is_main_wnd = false;
     // 主UI的附件UI，显示在主UI上面（之所以有附件UI，是因为附件UI可能会在多个主UI上显示）
     public List<string> m_mate_ui_list = new List<string>();
     // 显示黑色遮罩
     public bool m_show_mask = false;
-    #endregion
+#endregion
 
-    #region 动态数据
+#region 动态数据
     bool m_is_show = true;
     #endregion
 
     #region INGUIInterface
+
+#if USE_NGUI
     UIPanel[] m_panels;
     public UIPanel[] Panels
     {
@@ -44,6 +50,8 @@ public class UIBase : UIInputListener, IUIBase, INGUIInterface
             return m_panels;
         }
     }
+#endif
+
     #endregion
 
     public virtual void Awake()
@@ -59,7 +67,7 @@ public class UIBase : UIInputListener, IUIBase, INGUIInterface
             ui_mgr.DestroyUI(Name);
     }
 
-    #region UI提供的接口
+#region UI提供的接口
 
     public static void ShowUI(string ui_name, object data = null)
     {
@@ -91,9 +99,9 @@ public class UIBase : UIInputListener, IUIBase, INGUIInterface
     {
         return UIManager.Instance.GetObjectInAssetBundle(Name, obj_name);
     }
-    #endregion
+#endregion
 
-    #region IUIBase
+#region IUIBase
     public bool IsShow()
     {
         return m_is_show;
@@ -128,16 +136,16 @@ public class UIBase : UIInputListener, IUIBase, INGUIInterface
     {
         get { return m_mate_ui_list; }
     }
-    #endregion
+#endregion
 
-    #region Mask
+#region Mask
     void OnBtnClickMask(GameObject button)
     {
         UIManager.Instance.HideUI(this);
     }
-    #endregion
+#endregion
 
-    #region internal
+#region internal
     protected void LockUI(string lock_type)
     {
         UIManager.Instance.LockUI(lock_type);
@@ -162,7 +170,7 @@ public class UIBase : UIInputListener, IUIBase, INGUIInterface
         GameObject.Destroy(gameObject);
     }
 
-    #endregion
+#endregion
 }
 
 

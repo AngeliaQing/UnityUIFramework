@@ -1,4 +1,6 @@
-﻿
+﻿/*
+ * UI和局内的交互方式
+ */
 public interface IUIEventListener
 {
     void ReceiveEvent(int event_type, System.Object event_data = null);
