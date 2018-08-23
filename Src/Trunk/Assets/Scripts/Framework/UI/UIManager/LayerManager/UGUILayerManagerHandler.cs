@@ -14,6 +14,13 @@ namespace YUIFramework
         public override void Init(List<Camera> interceptive_cameras)
         {
             m_ui_root_asset = "UI/Common/UGUI/UGUIRoot";
+
+            Transform ui_root = GetUIRoot();
+            if(ui_root != null)
+            {
+                RectTransform rt = ui_root.GetComponent<RectTransform>();
+                InitRectTransform(rt);
+            }
             InitLayers();
         }
         public override void Forward(IUIBase ui)
@@ -26,12 +33,7 @@ namespace YUIFramework
             RectTransform rt = ui_base.gameObject.GetComponent<RectTransform>();
             if(rt != null)
             {
-                rt.localScale = Vector3.one;
-                rt.anchorMin = Vector2.zero;
-                rt.anchorMax = Vector3.one;
-
-                rt.sizeDelta = Vector2.zero;
-                rt.anchoredPosition = Vector3.zero;
+                InitRectTransform(rt);
                 rt.SetAsLastSibling();
             }
         }
@@ -52,11 +54,7 @@ namespace YUIFramework
                 layer_obj.name = hierarchy_layer_name;
 
                 RectTransform rt = layer_obj.AddComponent<RectTransform>();
-                rt.localScale = Vector3.one;
-                rt.anchorMin = Vector2.zero;
-                rt.anchorMax = Vector2.one;
-                rt.sizeDelta = Vector2.zero;
-                rt.anchoredPosition = Vector3.zero;
+                InitRectTransform(rt);
                 rt.SetAsLastSibling();
 
                 m_layer2transfom[one_layer] = layer_obj.transform;
@@ -76,14 +74,21 @@ namespace YUIFramework
             msg_box_obj.transform.localScale = Vector3.one;
 
             RectTransform rt = msg_box_obj.GetComponent<RectTransform>();
+            InitRectTransform(rt);
+            m_ui_msg_box = msg_box_obj.GetComponent<UGUIMessageBox>();
+
+            UIHelper.SetActive(msg_box_obj, false);
+        }
+
+        void InitRectTransform(RectTransform rt)
+        {
+            if (rt == null)
+                return;
             rt.localScale = Vector3.one;
             rt.anchorMin = Vector2.zero;
             rt.anchorMax = Vector2.one;
             rt.sizeDelta = Vector2.zero;
             rt.anchoredPosition = Vector3.zero;
-            m_ui_msg_box = msg_box_obj.GetComponent<UGUIMessageBox>();
-
-            UIHelper.SetActive(msg_box_obj, false);
         }
         #endregion
     }
