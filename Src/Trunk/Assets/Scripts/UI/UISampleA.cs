@@ -6,11 +6,25 @@ public class UISampleA : UIBase, IUIEventListener
 {
     UIEventListenerContext m_event_listener_context;
 
+    bool a = false;
     public override void Awake()
     {
         base.Awake();
         this.CareCategory = EasyTouchEventCategoty.ETEC_SimpleTap + EasyTouchEventCategoty.ETEC_Drag;
         m_event_listener_context = UIEventListenerContext.Create(this);
+
+        //StartCoroutine(Test());
+        //Debug.LogError("Test1");
+        //a = false;
+    }
+
+    IEnumerator Test()
+    {
+        a = true;
+        Debug.LogError("Test2");
+        yield return new WaitForSeconds(1);
+        Debug.LogError("Test3");
+        a = false;
     }
 
     public override void OnSimpleTap(Gesture gesture)

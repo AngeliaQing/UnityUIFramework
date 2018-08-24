@@ -60,15 +60,14 @@ namespace YUIFramework
             ms_cur_main_ui = null;
         }
 
-        public void PrintStack()
-        {
-            return;
-            string log = "";
-            foreach(IUIBase ui in ms_main_ui_stack)
-            {
-                log += ui.Name + " ";
-            }
-            Debug.LogError(log);
-        }
+        //public void PrintStack()
+        //{
+        //    string log = "";
+        //    foreach(IUIBase ui in ms_main_ui_stack)
+        //    {
+        //        log += ui.Name + " ";
+        //    }
+        //    Debug.LogError(log);
+        //}
     }
 }

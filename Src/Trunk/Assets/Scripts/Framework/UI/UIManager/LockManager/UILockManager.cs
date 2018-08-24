@@ -11,7 +11,7 @@ namespace YUIFramework
         List<string> m_lock_types = new List<string>();
 
         #region 常量
-        const string UILockName = "UILock";
+        public const string UILockName = "UILock";
         #endregion
 
         public void LockUI(string lock_type)

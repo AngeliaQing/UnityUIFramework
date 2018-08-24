@@ -13,6 +13,9 @@ namespace YUIFramework
         void UpdateUIByDefaultDataOnShow();
         void UpdateUIOnShow();
 
+        IEnumerator PlayEnterAnim();
+        IEnumerator PlayLeaveAnim();
+
         //Get
         bool IsStateUI { get; }
         string Name { get; }
