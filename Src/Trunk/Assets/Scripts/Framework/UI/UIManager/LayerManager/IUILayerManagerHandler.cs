@@ -14,7 +14,7 @@ namespace YUIFramework
         UIMessageBox GetUIMessageBox();
     }
 
-    public class UILayerManagerHandler : IUILayerManagerHandler
+    public class UILayerManagerHandler : MonoBehaviour, IUILayerManagerHandler
     {
         protected Dictionary<int, Transform> m_layer2transfom = new Dictionary<int, Transform>();
         protected string m_ui_root_asset;
@@ -45,6 +45,7 @@ namespace YUIFramework
                 if (obj == null)
                 {
                     obj = UnityResourceManager<GameObject>.Instance.AllocResource(m_ui_root_asset);
+                    DontDestroyOnLoad(obj);
                     obj.name = gui_name;
                 }
                 m_ui_root = obj.transform;
