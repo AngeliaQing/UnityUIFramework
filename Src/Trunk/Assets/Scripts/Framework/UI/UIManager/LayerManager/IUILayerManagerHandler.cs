@@ -44,7 +44,7 @@ namespace YUIFramework
                 GameObject obj = GameObject.Find(gui_name);
                 if (obj == null)
                 {
-                    obj = DemoUnityResourceManager<GameObject>.Instance.AllocResource(m_ui_root_asset);
+                    obj = UnityResourceManager<GameObject>.Instance.AllocResource(m_ui_root_asset);
                     obj.name = gui_name;
                 }
                 m_ui_root = obj.transform;

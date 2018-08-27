@@ -3,10 +3,12 @@ using System.Reflection;
 using System.Collections;
 using System.Collections.Generic;
 
-public interface ISingleton
+namespace YUIFramework
 {
-    void DestroySingleton();
-}
+    public interface ISingleton
+    {
+        void DestroySingleton();
+    }
 
     public abstract class Singleton<T> : ISingleton, IDestruct where T : Singleton<T>
     {
@@ -44,31 +46,32 @@ public interface ISingleton
         public abstract void Destruct();
     }
 
-public class SingletonManager
-{
-    static List<ISingleton> ms_all_singletons = new List<ISingleton>();
-
-    public static void AddSingleton(ISingleton singleton)
+    public class SingletonManager
     {
-        ms_all_singletons.Add(singleton);
-    }
+        static List<ISingleton> ms_all_singletons = new List<ISingleton>();
 
-    public static void DestroyAllSingletons()
-    {
-        for (int i = 0; i < ms_all_singletons.Count; ++i)
-            ms_all_singletons[i].DestroySingleton();
-        ms_all_singletons.Clear();
+        public static void AddSingleton(ISingleton singleton)
+        {
+            ms_all_singletons.Add(singleton);
+        }
+
+        public static void DestroyAllSingletons()
+        {
+            for (int i = 0; i < ms_all_singletons.Count; ++i)
+                ms_all_singletons[i].DestroySingleton();
+            ms_all_singletons.Clear();
+        }
     }
-}
 
 #if UNITY_EDITOR
-class TestSingleton : Singleton<TestSingleton>
-{
-    private TestSingleton()
+    class TestSingleton : Singleton<TestSingleton>
     {
+        private TestSingleton()
+        {
+        }
+        public override void Destruct()
+        {
+        }
     }
-    public override void Destruct()
-    {
-    }
-}
 #endif
+}

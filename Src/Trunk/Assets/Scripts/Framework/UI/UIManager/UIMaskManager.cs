@@ -16,7 +16,7 @@ namespace YUIFramework
         public void AddMask(IUIBase ui_base, UIEventListener.VoidDelegate call_back)
         {
             GameObject ui_obj = null;
-            GameObject mask_obj = DemoUnityResourceManager<GameObject>.Instance.AllocResource(UI_BLACK_MASK_ASSET);
+            GameObject mask_obj = UnityResourceManager<GameObject>.Instance.AllocResource(UI_BLACK_MASK_ASSET);
             if (ui_base != null)
             {
                 UIBase the_ui_base = ui_base as UIBase;

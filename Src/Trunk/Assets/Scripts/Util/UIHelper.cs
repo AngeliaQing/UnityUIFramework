@@ -2,23 +2,26 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UIHelper
+namespace YUIFramework
 {
-    static Dictionary<int, string> m_s_int2string = new Dictionary<int, string>();
-
-    public static string GetString(int param)
+    public class UIHelper
     {
-        if (!m_s_int2string.ContainsKey(param))
+        static Dictionary<int, string> m_s_int2string = new Dictionary<int, string>();
+
+        public static string GetString(int param)
         {
-            m_s_int2string[param] = param.ToString();
+            if (!m_s_int2string.ContainsKey(param))
+            {
+                m_s_int2string[param] = param.ToString();
+            }
+            return m_s_int2string[param];
         }
-        return m_s_int2string[param];
-    }
 
-    public static void SetActive(GameObject obj, bool flag)
-    {
-        if (obj.activeSelf == flag)
-            return;
-        obj.SetActive(flag);
+        public static void SetActive(GameObject obj, bool flag)
+        {
+            if (obj.activeSelf == flag)
+                return;
+            obj.SetActive(flag);
+        }
     }
 }

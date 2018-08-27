@@ -5,7 +5,7 @@ using System.Collections.Generic;
 namespace YUIFramework
 {
 
-    [RequireComponent(typeof(UIRegisterManager))]
+    [RequireComponent(typeof(UIRegister))]
     [RequireComponent(typeof(UILayerManager))]
     [RequireComponent(typeof(UIStackManager))]
     [RequireComponent(typeof(UIMaskManager))]
@@ -13,7 +13,7 @@ namespace YUIFramework
     public class UIManager : SingletonMonoBehaviour<UIManager>
     {
         IUIResourceMgr m_ui_res_mgr;
-        static UIRegisterManager ms_register_manager;
+        static UIRegister ms_register_manager;
         static UILayerManager ms_layer_manager;
         static UIStackManager ms_stack_manager;
         static UIMaskManager ms_mask_manager;
@@ -34,7 +34,7 @@ namespace YUIFramework
         void Awake()
         {
             m_ui_res_mgr = new UIPrefabMgr();
-            ms_register_manager = gameObject.GetComponent<UIRegisterManager>();
+            ms_register_manager = gameObject.GetComponent<UIRegister>();
             ms_layer_manager = gameObject.GetComponent<UILayerManager>();
             ms_stack_manager = gameObject.GetComponent<UIStackManager>();
             ms_mask_manager = gameObject.GetComponent<UIMaskManager>();

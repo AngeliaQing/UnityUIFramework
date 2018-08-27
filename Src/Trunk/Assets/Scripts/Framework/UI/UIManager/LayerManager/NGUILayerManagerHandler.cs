@@ -89,7 +89,7 @@ namespace YUIFramework
                 layer_obj.name = hierarchy_layer_name;
 
                 //放置相机
-                GameObject camera_obj = DemoUnityResourceManager<GameObject>.Instance.AllocResource(UI_CAMERA_PREFAB_PATH);
+                GameObject camera_obj = UnityResourceManager<GameObject>.Instance.AllocResource(UI_CAMERA_PREFAB_PATH);
                 camera_obj.layer = LayerMask.NameToLayer(layer_name);
                 camera_obj.transform.parent = layer_obj.transform;
                 camera_obj.transform.localPosition = Vector3.zero;
@@ -112,7 +112,7 @@ namespace YUIFramework
         void InitPopupLayer()
         {
             Transform ui_camera_trans = GetParentByLayer(UILayer.LayerSystemPopup);
-            GameObject msg_box_obj = DemoUnityResourceManager<GameObject>.Instance.AllocResource(UI_MESSAGE_BOX_PREFAB_PATH);
+            GameObject msg_box_obj = UnityResourceManager<GameObject>.Instance.AllocResource(UI_MESSAGE_BOX_PREFAB_PATH);
             msg_box_obj.transform.parent = ui_camera_trans;
             msg_box_obj.transform.name = "UIMessageBox";
             msg_box_obj.transform.localPosition = Vector3.zero;

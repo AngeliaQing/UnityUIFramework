@@ -66,7 +66,7 @@ namespace YUIFramework
         void InitPopupLayer()
         {
             Transform parent_trans = GetParentByLayer(UILayer.LayerSystemPopup);
-            GameObject msg_box_obj = DemoUnityResourceManager<GameObject>.Instance.AllocResource(UI_MESSAGE_BOX_PREFAB_PATH);
+            GameObject msg_box_obj = UnityResourceManager<GameObject>.Instance.AllocResource(UI_MESSAGE_BOX_PREFAB_PATH);
             msg_box_obj.transform.SetParent(parent_trans);
             msg_box_obj.transform.name = "UIMessageBox";
             msg_box_obj.transform.localPosition = Vector3.zero;

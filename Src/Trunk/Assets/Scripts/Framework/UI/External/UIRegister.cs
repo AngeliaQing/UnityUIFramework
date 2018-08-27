@@ -20,7 +20,7 @@ namespace YUIFramework
      * UI注册管理器
      * 所有继承UIBase的UI面板都需要在这里进行注册
     */
-    public class UIRegisterManager : MonoBehaviour
+    public class UIRegister : MonoBehaviour
     {
         Dictionary<string, UIRegisterInfo> m_ui_name2register_info = new Dictionary<string, UIRegisterInfo>();
 
