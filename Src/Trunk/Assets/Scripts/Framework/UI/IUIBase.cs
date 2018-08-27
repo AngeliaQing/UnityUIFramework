@@ -27,4 +27,17 @@ namespace YUIFramework
     {
         UIPanel[] Panels { get; }
     }
+
+    public class UIAsyncRequestResult : IRecyclable
+    {
+        public bool Success
+        {
+            get; set;
+        }
+
+        public void Reset()
+        {
+
+        }
+    }
 }

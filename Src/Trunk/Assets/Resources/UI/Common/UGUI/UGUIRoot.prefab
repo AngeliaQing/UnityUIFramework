@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 223450565478872752}
   - component: {fileID: 114392827488481666}
   - component: {fileID: 114996041658414800}
-  m_Layer: 9
+  m_Layer: 5
   m_Name: UGUIRoot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -39,7 +39,7 @@ GameObject:
   - component: {fileID: 4282799750980194}
   - component: {fileID: 114094513789215606}
   - component: {fileID: 114733648263860604}
-  m_Layer: 9
+  m_Layer: 5
   m_Name: EventSystem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -163,7 +163,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}

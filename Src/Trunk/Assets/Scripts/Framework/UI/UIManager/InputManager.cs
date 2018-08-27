@@ -3,6 +3,27 @@ using System.Collections.Generic;
 
 namespace YUIFramework
 {
+    public class EasyTouchEventCategoty
+    {
+        public const int ETEC_None = 0;
+        public const int ETEC_All = (int)-1;
+        public const int ETEC_Cancel = 1 << 0;
+        public const int ETEC_Touch = 1 << 1;
+        public const int ETEC_SimpleTap = 1 << 2;
+        public const int ETEC_DoubleTap = 1 << 3;
+        public const int ETEC_LongTap = 1 << 4;
+        public const int ETEC_Drag = 1 << 5;
+        public const int ETEC_Swipe = 1 << 6;
+        public const int ETEC_Touch2Fingers = 1 << 7;
+        public const int ETEC_SimpleTap2Fingers = 1 << 8;
+        public const int ETEC_DoubleTap2Fingers = 1 << 9;
+        public const int ETEC_LongTap2Fingers = 1 << 10;
+        public const int ETEC_Twist = 1 << 11;
+        public const int ETEC_Pinch = 1 << 12;
+        public const int ETEC_Drag2Fingers = 1 << 13;
+        public const int ETEC_Swipe2Fingers = 1 << 14;
+    }
+
     /// <summary>
     /// 输入事件监听器, 每个事件的意义参照EasyTouch说明
     /// </summary>

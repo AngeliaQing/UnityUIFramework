@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 114876049820476534}
   - component: {fileID: 114913094190542412}
   - component: {fileID: 54264279734645586}
-  m_Layer: 9
+  m_Layer: 5
   m_Name: UIRootEditor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -39,7 +39,7 @@ GameObject:
   - component: {fileID: 4257607160877190}
   - component: {fileID: 20465137607807828}
   - component: {fileID: 114446359575178326}
-  m_Layer: 9
+  m_Layer: 5
   m_Name: UICamera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -56,7 +56,7 @@ GameObject:
   - component: {fileID: 4878460867069192}
   - component: {fileID: 20482840735717416}
   - component: {fileID: 114476442896460326}
-  m_Layer: 10
+  m_Layer: 5
   m_Name: UICameraSystem
   m_TagString: Untagged
   m_Icon: {fileID: 0}

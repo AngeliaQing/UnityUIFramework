@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 114324779388062388}
   - component: {fileID: 114225650298524026}
   - component: {fileID: 54135648413469138}
-  m_Layer: 9
+  m_Layer: 5
   m_Name: NGUIRoot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
