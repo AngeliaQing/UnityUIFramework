@@ -8,12 +8,12 @@ namespace YUIFramework
     public class UGUILayerManagerHandler : UILayerManagerHandler
     {
         #region 常量
-        const string UI_MESSAGE_BOX_PREFAB_PATH = "UI/Common/UGUI/UGUIMessageBox";
+        const string UI_MESSAGE_BOX_PREFAB_PATH = UIRegister.UI_DIR + "Common/UGUI/UGUIMessageBox";
         #endregion
 
         public override void Init(List<Camera> interceptive_cameras)
         {
-            m_ui_root_asset = "UI/Common/UGUI/UGUIRoot";
+            m_ui_root_asset = UIRegister.UI_DIR + "Common/UGUI/UGUIRoot";
 
             Transform ui_root = GetUIRoot();
             if(ui_root != null)

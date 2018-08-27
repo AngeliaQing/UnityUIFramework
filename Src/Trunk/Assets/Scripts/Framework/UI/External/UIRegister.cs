@@ -24,6 +24,7 @@ namespace YUIFramework
     {
         Dictionary<string, UIRegisterInfo> m_ui_name2register_info = new Dictionary<string, UIRegisterInfo>();
 
+        public const string UI_DIR = "UI/";
         void Awake()
         {
             RegisterUI();

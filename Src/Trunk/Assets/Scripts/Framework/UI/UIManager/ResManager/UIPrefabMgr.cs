@@ -17,10 +17,11 @@ namespace YUIFramework
                     on_load(pair.Value, data);
                 return;
             }
-            GameObject prefab = Resources.Load("UI/" + ui_dir_path + ui_name, typeof(GameObject)) as GameObject;
+            
+            GameObject prefab = Resources.Load(UIRegister.UI_DIR + ui_dir_path + ui_name, typeof(GameObject)) as GameObject;
             if (prefab == null)
             {
-                Debug.LogError("UIPrefabMgr LoadUI fail prefab, UI/" + ui_dir_path + ui_name);
+                Debug.LogError("UIPrefabMgr LoadUI fail prefab, "+ UIRegister.UI_DIR + ui_dir_path + ui_name);
                 if (on_load != null)
                     on_load(null, data);
                 return;
@@ -28,7 +29,7 @@ namespace YUIFramework
             GameObject go = GameObject.Instantiate(prefab) as GameObject;
             if (go == null)
             {
-                Debug.LogError("UIPrefabMgr LoadUI fail prefab, UI/" + ui_dir_path + ui_name);
+                Debug.LogError("UIPrefabMgr LoadUI fail prefab, "+ UIRegister.UI_DIR + ui_dir_path + ui_name);
                 if (on_load != null)
                     on_load(null, data);
                 return;
@@ -37,12 +38,12 @@ namespace YUIFramework
             UIBase ui_base = go.GetComponent<UIBase>();
             if (ui_base == null)
             {
-                Debug.LogError("UIPrefabMgr LoadUI fail prefab, UI/" + ui_dir_path + ui_name);
+                Debug.LogError("UIPrefabMgr LoadUI fail prefab, "+ UIRegister.UI_DIR + ui_dir_path + ui_name);
                 if (on_load != null)
                     on_load(null, data);
                 return;
             }
-            Debug.Log("UIPrefabMgr LoadUI, UI/" + ui_name);
+            Debug.Log("UIPrefabMgr LoadUI, "+ UIRegister.UI_DIR + ui_name);
             go.name = ui_name;  // AssetBundle的名字 == 界面GameObject的名字 == 脚本的名字
             Transform tf = go.transform;
             tf.SetParent(ui_base.GetUIParent());
@@ -70,7 +71,7 @@ namespace YUIFramework
             if (m_loaded_prefab.TryGetValue(obj_name, out pair))
                 return pair.Key;
             else
-                return Resources.Load("UI/" + obj_name, typeof(GameObject)) as GameObject;
+                return Resources.Load(UIRegister.UI_DIR + obj_name, typeof(GameObject)) as GameObject;
         }
 
         public void DestroyUI(string ui_name)
@@ -78,7 +79,7 @@ namespace YUIFramework
             if (!m_loaded_prefab.ContainsKey(ui_name))
                 return;
             m_loaded_prefab.Remove(ui_name);
-            Debug.Log("UIPrefabMgr DestroyUI, UI/Layout/" + ui_name);
+            Debug.Log("UIPrefabMgr DestroyUI, "+ UIRegister.UI_DIR + ui_name);
         }
 
         public void ClearLoadedResourse()

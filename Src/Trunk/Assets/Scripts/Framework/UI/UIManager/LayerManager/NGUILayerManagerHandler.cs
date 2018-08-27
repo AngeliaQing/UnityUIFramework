@@ -16,13 +16,14 @@ namespace YUIFramework
         // 主UI内的所有UIPanel的depth必须小于MAIN_UI_MAX_DEPTH，非主UI的UIPanel的depth会调整为从MAIN_UI_MAX_DEPTH起
         const int MAIN_UI_MAX_DEPTH = 20;
         const string UI_CAMERA_NAME = "UICamera";
-        const string UI_CAMERA_PREFAB_PATH = "UI/Common/NGUI/UICamera";
-        const string UI_MESSAGE_BOX_PREFAB_PATH = "UI/Common/NGUI/NGUIMessageBox";
+
+        const string UI_CAMERA_PREFAB_PATH = UIRegister.UI_DIR + "Common/NGUI/UICamera";
+        const string UI_MESSAGE_BOX_PREFAB_PATH = UIRegister.UI_DIR + "Common/NGUI/NGUIMessageBox";
         #endregion
 
         public override void Init(List<Camera> interceptive_cameras)
         {
-            m_ui_root_asset = "UI/Common/NGUI/NGUIRoot";
+            m_ui_root_asset = UIRegister.UI_DIR + "Common/NGUI/NGUIRoot";
             InitLayers();
             InitCameras(interceptive_cameras);
         }

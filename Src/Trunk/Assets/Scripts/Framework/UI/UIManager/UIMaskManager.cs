@@ -8,9 +8,9 @@ namespace YUIFramework
     {
         #region 静态
 #if USE_NGUI
-        const string UI_BLACK_MASK_ASSET = "UI/Common/NGUI/UIBlackMask";
+        const string UI_BLACK_MASK_ASSET = UIRegister.UI_DIR + "Common/NGUI/UIBlackMask";
 #else
-        const string UI_BLACK_MASK_ASSET = "UI/Common/UGUI/UIBlackMask";
+        const string UI_BLACK_MASK_ASSET = UIRegister.UI_DIR + "Common/UGUI/UIBlackMask";
 #endif
         #endregion
         public void AddMask(IUIBase ui_base, UIEventListener.VoidDelegate call_back)
