@@ -18,9 +18,9 @@ namespace YUIFramework
 
         //Get
         bool IsStateUI { get; }
-        string Name { get; }
+        UIName Name { get; set; }
         GameObject GameObject { get; }
-        List<string> MateUIList { get; }
+        List<UIName> MateUIList { get; }
     }
 
     public interface INGUIInterface

@@ -22,29 +22,30 @@ public class UIBase : UIInputListener, IUIBase, INGUIInterface
         // 是否是状态UI
         public bool m_is_main_wnd = false;
         // 附件UI,仅对状态UI有效，显示在UI面板上面（之所以有附件UI，是因为附件UI可能会在多个UI面板上显示）
-        public List<string> m_mate_ui_list = new List<string>();
+        public List<string> m_mate_ui_strings = new List<string>();
         // 显示黑色遮罩
         public bool m_show_mask = false;
         #endregion
 
         #region 动态数据
         bool m_is_show = true;
+        List<UIName> m_mate_uis = new List<UIName>();
         #endregion
 
         #region UI提供外部的接口
         //请在这里调用显示UI
-        public static void ShowUI(string ui_name, object data = null)
+        public static void ShowUI(UIName ui_name, object data = null)
         {
             UIManager.Instance.ShowUI(ui_name, data);
         }
 
         //请在这里调用隐藏UI
-        public static void HideUI(string ui_name)
+        public static void HideUI(UIName ui_name)
         {
             UIManager.Instance.HideUI(ui_name);
         }
 
-        public static bool IsShow(string ui_name)
+        public static bool IsShow(UIName ui_name)
         {
             return UIManager.Instance.IsShow(ui_name);
         }
@@ -83,18 +84,21 @@ public class UIBase : UIInputListener, IUIBase, INGUIInterface
         //一般用于自毁
         protected void Destroy()
         {
-            UIManager.Instance.HideUIAsync(this);
+            UIManager.Instance.HideUIAsync(this, DestroyUIWhenHided);
+        }
+        void DestroyUIWhenHided()
+        {
             GameObject.Destroy(gameObject);
         }
 
         //用于UI面板之间的互相调用
-        protected void CallUIMethod(string ui_name, string method_name, object value)
+        protected void CallUIMethod(UIName ui_name, string method_name, object value)
         {
             UIManager.Instance.CallUIMethod(ui_name, method_name, value);
         }
 
         //用于UI面板之间的互相调用
-        protected void CallUIMethod(string ui_name, string method_name)
+        protected void CallUIMethod(UIName ui_name, string method_name)
         {
             UIManager.Instance.CallUIMethod(ui_name, method_name);
         }
@@ -128,19 +132,28 @@ public class UIBase : UIInputListener, IUIBase, INGUIInterface
         {
             get { return m_is_main_wnd; }
         }
-        public string Name
-        {
-            get { return name; }
-        }
+        public UIName Name { get;set; }
         public GameObject GameObject
         {
             get { return this.gameObject; }
         }
-        public List<string> MateUIList { get { return m_mate_ui_list; } }
+
+        public List<UIName> MateUIList
+        {
+            get
+            {
+                if (m_mate_uis.Count == 0)
+                {
+                    for (int i = 0; i < m_mate_ui_strings.Count; ++i)
+                        m_mate_uis.Add((UIName)Enum.Parse(typeof(UIName), m_mate_ui_strings[i]));
+                }
+                return m_mate_uis;
+            }
+        }
         #endregion
 
         #region UnityEngine
-        public virtual void Awake()
+        protected virtual void Awake()
         {
             m_is_show = false;
             if (m_show_mask)

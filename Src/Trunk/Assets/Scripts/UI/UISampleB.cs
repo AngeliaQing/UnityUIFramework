@@ -8,11 +8,11 @@ public class UISampleB : UIBase {
 
     public void OnBtnClick()
     {
-        UIBase.ShowUI("UISampleC");
+        UIBase.ShowUI(UIName.UISampleC);
     }
     public void OnBtnClickA()
     {
-        CallUIMethod("UISampleA", "YqqCallBack", "This is callback with other ui");
+        CallUIMethod(UIName.UISampleA, "YqqCallBack", "This is callback with other ui");
     }
     public void OnBtnClose()
     {

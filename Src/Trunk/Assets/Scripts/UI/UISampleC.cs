@@ -30,7 +30,7 @@ public class UISampleC : UIBase
 
     public void OnBtnClick()
     {
-        UIBase.ShowUI("UISampleA");
+        UIBase.ShowUI(UIName.UISampleA);
     }
     public void OnBtnClose()
     {

@@ -10,17 +10,13 @@ namespace YUIFramework
     {
         List<string> m_lock_types = new List<string>();
 
-        #region 常量
-        public const string UILockName = "UILock";
-        #endregion
-
         public void LockUI(string lock_type)
         {
             if (!m_lock_types.Contains(lock_type))
                 m_lock_types.Add(lock_type);
 
             if (m_lock_types.Count == 1)
-                UIBase.ShowUI(UILockName);
+                UIBase.ShowUI(UIName.UILock);
         }
 
         public void UnLockUI(string lock_type)
@@ -28,12 +24,12 @@ namespace YUIFramework
             if (m_lock_types.Contains(lock_type))
                 m_lock_types.Remove(lock_type);
             if (m_lock_types.Count < 1)
-                UIBase.HideUI(UILockName);
+                UIBase.HideUI(UIName.UILock);
         }
 
         public void UnLockAllUI()
         {
-            UIBase.HideUI(UILockName);
+            UIBase.HideUI(UIName.UILock);
             m_lock_types.Clear();
         }
     }

@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System;
 
 namespace YUIFramework
 {
@@ -24,7 +25,7 @@ namespace YUIFramework
         static int ms_opened_ui_count = 0;
 
         // 当前显示的UI（不管是否是状态UI）
-        static Dictionary<string, IUIBase> ms_showed_ui = new Dictionary<string, IUIBase>();
+        static Dictionary<int, IUIBase> ms_showed_ui = new Dictionary<int, IUIBase>();
 
         #region 常量
         const string m_switch_lock_name = "__switch_lock__";
@@ -49,23 +50,23 @@ namespace YUIFramework
         }
 
         #region UI加载
-        public bool IsLoaded(string ui_name)
+        public bool IsLoaded(UIName ui_name)
         {
             return m_ui_res_mgr.GetLoadedUI(ui_name) != null;
         }
 
-        public void LoadUI(string ui_name)
+        public void LoadUI(UIName ui_name)
         {
             m_ui_res_mgr.LoadUI(ui_name, DoNothingWhenLoaded);
         }
 
-        public IUIBase GetUI(string ui_name)
+        public IUIBase GetUI(UIName ui_name)
         {
             if (IsShow(ui_name))
                 return m_ui_res_mgr.GetLoadedUI(ui_name);
             return null;
         }
-        public IUIBase ForceGetUI(string ui_name, string ui_dir_path = "")
+        public IUIBase ForceGetUI(UIName ui_name, string ui_dir_path = "")
         {
             IUIBase ui = m_ui_res_mgr.GetLoadedUI(ui_name);
             if (ui == null)
@@ -77,7 +78,7 @@ namespace YUIFramework
             return ui;
         }
 
-        public GameObject GetObjectInAssetBundle(string ui_name, string obj_name)
+        public GameObject GetObjectInAssetBundle(UIName ui_name, string obj_name)
         {
             return m_ui_res_mgr.GetObjectInAssetBundle(ui_name, obj_name);
         }
@@ -89,9 +90,9 @@ namespace YUIFramework
 
         #region UI生命周期控制
 
-        public bool IsShow(string ui_name)
+        public bool IsShow(UIName ui_name)
         {
-            return ms_showed_ui.ContainsKey(ui_name);
+            return ms_showed_ui.ContainsKey((int)ui_name);
         }
         bool IsShow(IUIBase i_ui_base)
         {
@@ -100,7 +101,7 @@ namespace YUIFramework
             return IsShow(i_ui_base.Name);
         }
 
-        public void ShowUI(string ui_name, object data = null)
+        public void ShowUI(UIName ui_name, object data = null)
         {
             if (ShowLoadedUI(ui_name, data))
                 return;
@@ -109,7 +110,7 @@ namespace YUIFramework
                 ui_path = ms_register_manager.GetUIPath(ui_name);
             m_ui_res_mgr.LoadUI(ui_name, ShowUIWhenLoaded, ui_path, data);
         }
-        bool ShowLoadedUI(string ui_name, object data = null)
+        bool ShowLoadedUI(UIName ui_name, object data = null)
         {
             IUIBase ui_base = m_ui_res_mgr.GetLoadedUI(ui_name);
             if (ui_base != null)
@@ -178,7 +179,7 @@ namespace YUIFramework
             }
 
             yield return ShowUIInternal(i_ui_base, data);
-            ms_showed_ui[i_ui_base.Name] = i_ui_base;
+            ms_showed_ui[(int)i_ui_base.Name] = i_ui_base;
 
             //加载数据相关
             if (NeedLoadDataBeforeShow(i_ui_base))
@@ -211,11 +212,11 @@ namespace YUIFramework
             yield return i_ui_base.PlayEnterAnim();
         }
 
-        public void HideUI(string ui_name)
+        public void HideUI(UIName ui_name)
         {
             HideLoadedUI(ui_name);
         }
-        bool HideLoadedUI(string ui_name)
+        bool HideLoadedUI(UIName ui_name)
         {
             IUIBase ui_base = m_ui_res_mgr.GetLoadedUI(ui_name);
             if (ui_base != null)
@@ -229,18 +230,18 @@ namespace YUIFramework
             }
         }
 
-        public void HideUIAsync(IUIBase i_ui_base)
+        public void HideUIAsync(IUIBase i_ui_base, Action on_hided = null)
         {
             if (i_ui_base == null)
                 return;
             if (!IsShow(i_ui_base))
                 return;
-            StartCoroutine(HideUI(i_ui_base));
+            StartCoroutine(HideUI(i_ui_base, on_hided));
         }
-        IEnumerator HideUI(IUIBase i_ui_base)
+        IEnumerator HideUI(IUIBase i_ui_base, Action on_hided = null)
         {
-            yield return HideUIInternal(i_ui_base);
-            ms_showed_ui.Remove(i_ui_base.Name);
+            yield return HideUIInternal(i_ui_base, on_hided);
+            ms_showed_ui.Remove((int)i_ui_base.Name);
 
             if (i_ui_base.IsStateUI)
             {
@@ -251,22 +252,25 @@ namespace YUIFramework
                 ShowUIAsync(cur_main_ui);
             }
         }
-        IEnumerator HideUIInternal(IUIBase i_ui_base)
+        IEnumerator HideUIInternal(IUIBase i_ui_base, Action on_hided = null)
         {
             if (i_ui_base == null)
                 yield break;
             yield return i_ui_base.PlayLeaveAnim();
 
-            if(i_ui_base.GameObject.activeInHierarchy)
+            if (i_ui_base.GameObject.activeInHierarchy)
             {
                 UIHelper.SetActive(i_ui_base.GameObject, false);
                 i_ui_base.OnHide();
                 if (!i_ui_base.IsStateUI)
                     Backward(i_ui_base);
             }
+
+            if (on_hided != null)
+                on_hided();
         }
 
-        public void DestroyUI(string ui_name)
+        public void DestroyUI(UIName ui_name)
         {
             m_ui_res_mgr.DestroyUI(ui_name);
         }
@@ -278,7 +282,7 @@ namespace YUIFramework
                 if (IsShow(ui_base))
                     HideUIInternal(ui_base);
             }
-           
+
             ms_showed_ui.Clear();
             if (ms_layer_manager != null)
                 ms_layer_manager.OnCloseAllShowedUI();
@@ -326,7 +330,7 @@ namespace YUIFramework
         {
             // 应该在LoadLevel时调用
             CloseAllShowedUI();
-            if(ms_stack_manager != null)
+            if (ms_stack_manager != null)
                 ms_stack_manager.ClearUIStack();
         }
         #endregion
@@ -334,7 +338,7 @@ namespace YUIFramework
         #region MASK管理
         public void AddMask(IUIBase ui_base, UIEventListener.VoidDelegate call_back)
         {
-            if(ms_mask_manager != null)
+            if (ms_mask_manager != null)
             {
                 ms_mask_manager.AddMask(ui_base, call_back);
             }
@@ -351,14 +355,14 @@ namespace YUIFramework
         #endregion
 
         #region 打开的UI面板间通讯
-        public void CallUIMethod(string ui_name, string method_name, object value)
+        public void CallUIMethod(UIName ui_name, string method_name, object value)
         {
             IUIBase ui = GetUI(ui_name);
             if (ui == null)
                 return;
             ui.GameObject.SendMessage(method_name, value);
         }
-        public void CallUIMethod(string ui_name, string method_name)
+        public void CallUIMethod(UIName ui_name, string method_name)
         {
             IUIBase ui = GetUI(ui_name);
             if (ui == null)
@@ -390,14 +394,14 @@ namespace YUIFramework
         #region UI锁
         public void LockUI(IUIBase i_ui_base, string lock_type)
         {
-            if (i_ui_base != null && i_ui_base.Name.Contains(UILockManager.UILockName))
+            if (i_ui_base != null && i_ui_base.Name == UIName.UILock)
                 return;
             if (ms_lock_manager != null)
                 ms_lock_manager.LockUI(lock_type);
         }
         public void UnLockUI(IUIBase i_ui_base, string lock_type)
         {
-            if (i_ui_base != null && i_ui_base.Name.Contains(UILockManager.UILockName))
+            if (i_ui_base != null && i_ui_base.Name == UIName.UILock)
                 return;
             if (ms_lock_manager != null)
                 ms_lock_manager.UnLockUI(lock_type);

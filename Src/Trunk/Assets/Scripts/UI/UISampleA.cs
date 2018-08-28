@@ -8,7 +8,7 @@ public class UISampleA : UIBase, IUIEventListener
     UIEventListenerContext m_event_listener_context;
 
     bool a = false;
-    public override void Awake()
+    protected override void Awake()
     {
         base.Awake();
         this.CareCategory = EasyTouchEventCategoty.ETEC_SimpleTap + EasyTouchEventCategoty.ETEC_Drag;
@@ -36,7 +36,7 @@ public class UISampleA : UIBase, IUIEventListener
     public void OnBtnClick()
     {
         Debug.LogError("UISampleA OnBtnClick");
-        UIBase.ShowUI("UISampleB", 22);
+        UIBase.ShowUI(UIName.UISampleB, 22);
     }
     public void OnBtnClose()
     {

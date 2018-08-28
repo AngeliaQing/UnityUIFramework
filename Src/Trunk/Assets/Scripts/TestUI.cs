@@ -8,7 +8,7 @@ public class TestUI : MonoBehaviour {
 	// Use this for initialization
 	void Awake () {
 
-        UIBase.ShowUI("UISampleA");
+        UIBase.ShowUI(UIName.UISampleA);
 	}
     void Start()
     {
