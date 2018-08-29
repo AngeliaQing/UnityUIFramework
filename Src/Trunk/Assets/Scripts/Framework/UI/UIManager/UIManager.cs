@@ -101,6 +101,7 @@ namespace YUIFramework
             return IsShow(i_ui_base.Name);
         }
 
+        //UI显示
         public void ShowUI(UIName ui_name, object data = null)
         {
             if (ShowLoadedUI(ui_name, data))
@@ -123,12 +124,10 @@ namespace YUIFramework
                 return false;
             }
         }
-
         void ShowUIWhenLoaded(IUIBase ui_base, object data = null)
         {
             if (ui_base != null)
             {
-                //ui_base.InitializeUIBase();
                 ShowUIAsync(ui_base, data);
             }
             else
@@ -148,6 +147,9 @@ namespace YUIFramework
 
         IEnumerator ShowUIWithLoadData(IUIBase i_ui_base, object data = null)
         {
+            while (HasLockUI(i_ui_base, m_switch_lock_name))
+                yield return 0;
+
             LockUI(i_ui_base, m_switch_lock_name);
 
             //加载数据相关
@@ -169,17 +171,20 @@ namespace YUIFramework
                 if (ms_stack_manager != null)
                     ms_stack_manager.OnShowMainUI(i_ui_base);
 
-                CloseAllShowedUI();
+                yield return CloseAllShowedUI();
+            }
 
-                //显示附属UI
+            yield return ShowUIBase(i_ui_base, data);
+            ms_showed_ui[(int)i_ui_base.Name] = i_ui_base;
+
+            //显示附属UI
+            if (i_ui_base.IsStateUI)
+            {
                 for (int i = 0; i < i_ui_base.MateUIList.Count; ++i)
                 {
                     ShowUI(i_ui_base.MateUIList[i]);
                 }
             }
-
-            yield return ShowUIInternal(i_ui_base, data);
-            ms_showed_ui[(int)i_ui_base.Name] = i_ui_base;
 
             //加载数据相关
             if (NeedLoadDataBeforeShow(i_ui_base))
@@ -198,9 +203,7 @@ namespace YUIFramework
 
             UnLockUI(i_ui_base, m_switch_lock_name);
         }
-
-
-        IEnumerator ShowUIInternal(IUIBase i_ui_base, object data = null)
+        IEnumerator ShowUIBase(IUIBase i_ui_base, object data = null)
         {
             if (i_ui_base == null)
                 yield break;
@@ -212,6 +215,7 @@ namespace YUIFramework
             yield return i_ui_base.PlayEnterAnim();
         }
 
+        //UI隐藏
         public void HideUI(UIName ui_name)
         {
             HideLoadedUI(ui_name);
@@ -240,7 +244,7 @@ namespace YUIFramework
         }
         IEnumerator HideUI(IUIBase i_ui_base, Action on_hided = null)
         {
-            yield return HideUIInternal(i_ui_base, on_hided);
+            yield return HideUIBase(i_ui_base, on_hided);
             ms_showed_ui.Remove((int)i_ui_base.Name);
 
             if (i_ui_base.IsStateUI)
@@ -252,7 +256,7 @@ namespace YUIFramework
                 ShowUIAsync(cur_main_ui);
             }
         }
-        IEnumerator HideUIInternal(IUIBase i_ui_base, Action on_hided = null)
+        IEnumerator HideUIBase(IUIBase i_ui_base, Action on_hided = null)
         {
             if (i_ui_base == null)
                 yield break;
@@ -275,12 +279,12 @@ namespace YUIFramework
             m_ui_res_mgr.DestroyUI(ui_name);
         }
 
-        void CloseAllShowedUI()
+        IEnumerator CloseAllShowedUI()
         {
             foreach (IUIBase ui_base in ms_showed_ui.Values)
             {
                 if (IsShow(ui_base))
-                    HideUIInternal(ui_base);
+                    yield return HideUIBase(ui_base);
             }
 
             ms_showed_ui.Clear();
@@ -392,6 +396,14 @@ namespace YUIFramework
         #endregion
 
         #region UI锁
+        bool HasLockUI(IUIBase i_ui_base, string lock_type)
+        {
+            if (i_ui_base != null && i_ui_base.Name == UIName.UILock)
+                return false;
+            if (ms_lock_manager != null)
+                return ms_lock_manager.HasLockUI(lock_type);
+            return false;
+        }
         public void LockUI(IUIBase i_ui_base, string lock_type)
         {
             if (i_ui_base != null && i_ui_base.Name == UIName.UILock)

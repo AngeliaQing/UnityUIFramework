@@ -10,6 +10,10 @@ namespace YUIFramework
     {
         List<string> m_lock_types = new List<string>();
 
+        public bool HasLockUI(string lock_type)
+        {
+            return m_lock_types.Contains(lock_type);
+        }
         public void LockUI(string lock_type)
         {
             if (!m_lock_types.Contains(lock_type))

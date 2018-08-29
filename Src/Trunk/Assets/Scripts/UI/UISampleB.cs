@@ -23,7 +23,7 @@ public class UISampleB : UIBase {
     {
         Debug.LogError(DateTime.Now.ToString() + " UISampleB LoadData Start...");
         yield return new WaitForSeconds(2);
-        res.Success = false;
+        res.Success = true;
         if(!res.Success)
         {
             UIPopupMessageBox.Alert("I am Title", "I am Context...", new BtnClickCallBack(OnBtnClickOK), "yqq");

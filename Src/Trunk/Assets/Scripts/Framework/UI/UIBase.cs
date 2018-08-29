@@ -33,13 +33,12 @@ public class UIBase : UIInputListener, IUIBase, INGUIInterface
         #endregion
 
         #region UI提供外部的接口
-        //请在这里调用显示UI
+
         public static void ShowUI(UIName ui_name, object data = null)
         {
             UIManager.Instance.ShowUI(ui_name, data);
         }
-
-        //请在这里调用隐藏UI
+        
         public static void HideUI(UIName ui_name)
         {
             UIManager.Instance.HideUI(ui_name);
